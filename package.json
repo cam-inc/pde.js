@@ -14,8 +14,16 @@
     "clean": "turbo run clean",
     "graph": "turbo run build test lint format clean --graph=task-graph.png"
   },
-  "workspaces": ["packages/*", "apps/*"],
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
   "devDependencies": {
+    "@commitlint/cli": "^17.0.3",
+    "@commitlint/config-conventional": "^17.0.3",
+    "commitlint-plugin-workspace-scopes": "^1.1.0",
+    "conventional-changelog-cli": "^2.2.2",
+    "husky": "^8.0.1",
     "rimraf": "^3.0.2",
     "turbo": "^1.4.2",
     "typescript": "^4.7.4"
