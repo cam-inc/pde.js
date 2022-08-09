@@ -1,0 +1,23 @@
+{
+  "private": true,
+  "name": "pdejs",
+  "version": "0.0.1",
+  "volta": {
+    "node": "16.14.2"
+  },
+  "license": "MIT",
+  "scripts": {
+    "preflight": "npm ci .",
+    "dev": "turbo run dev --parallel",
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "clean": "turbo run clean",
+    "graph": "turbo run build test lint format clean --graph=task-graph.png"
+  },
+  "workspaces": ["packages/*", "apps/*"],
+  "devDependencies": {
+    "rimraf": "^3.0.2",
+    "turbo": "^1.4.2",
+    "typescript": "^4.7.4"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "private": false,
+  "name": "@pdejs/core",
+  "version": "0.0.1",
+  "description": "PDEJS - Plugin Declarative for Editor.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "clean": "rimraf ./dist",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cam-inc/pde.js.git"
+  },
+  "contributers": [
+    {
+      "name": "Go Ohtani",
+      "url": "https://github.com/cathcheeno"
+    },
+    {
+      "name": "Shuta Hirai",
+      "url": "https://github.com/shuta13"
+    }
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cam-inc/pde.js/issues"
+  },
+  "homepage": "https://github.com/cam-inc/pde.js#readme",
+  "devDependencies": {}
+}
