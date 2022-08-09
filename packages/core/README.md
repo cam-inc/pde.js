@@ -15,7 +15,7 @@
   </p>
 </div>
 
-## About @pdejs/core
+## About PDEJS
 
 A Package for constructing declarative Editor.js plugins.
 
