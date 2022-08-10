@@ -1,8 +1,8 @@
 {
   "private": false,
-  "name": "@pdejs/core",
+  "name": "@pdejs/tool-inline-marker",
   "version": "0.0.1",
-  "description": "PDEJS - Plugin Declarative for Editor.js",
+  "description": "Tool inline marker plugin for Editor.js.",
   "exports": {
     "require": "dist/index.cjs",
     "import": "dist/index.mjs",

@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "ES2015",
+    "module": "CommonJS",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "declaration": true,
+    "removeComments": true,
+    "jsx": "react",
+    "baseUrl": ".",
+    "outDir": "dist",
+    "paths": {
+      "react": ["./src/types.ts"]
+    }
+  },
+  "exclude": ["__tests__/**", "dist", "*.config.ts"],
+  "$schema": "https://json.schemastore.org/tsconfig.json"
+}

@@ -1,8 +1,8 @@
 {
   "private": false,
-  "name": "@pdejs/core",
+  "name": "@pdejs/tool-block-paragraph",
   "version": "0.0.1",
-  "description": "PDEJS - Plugin Declarative for Editor.js",
+  "description": "Tool block paragraph plugin for Editor.js.",
   "exports": {
     "require": "dist/index.cjs",
     "import": "dist/index.mjs",

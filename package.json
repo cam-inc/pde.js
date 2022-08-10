@@ -21,6 +21,7 @@
   "devDependencies": {
     "@commitlint/cli": "^17.0.3",
     "@commitlint/config-conventional": "^17.0.3",
+    "bunchee": "^1.9.0",
     "commitlint-plugin-workspace-scopes": "^1.1.0",
     "conventional-changelog-cli": "^2.2.2",
     "husky": "^8.0.1",
