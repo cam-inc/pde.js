@@ -136,3 +136,5 @@ dist
 .turbo
 task-graph.png
 
+# License Checker
+.licenselist.json

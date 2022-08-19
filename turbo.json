@@ -17,6 +17,7 @@
       "output": []
     },
     "format": {},
-    "clear": {}
+    "clear": {},
+    "license-checker": {}
   }
 }
