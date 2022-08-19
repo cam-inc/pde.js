@@ -15,7 +15,10 @@
     "clear": "turbo run clear",
     "graph": "turbo run build test lint format clean --graph=task-graph.png"
   },
-  "workspaces": ["packages/*", "apps/*"],
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
   "devDependencies": {
     "@commitlint/cli": "^17.0.3",
     "@commitlint/config-conventional": "^17.0.3",
@@ -23,7 +26,7 @@
     "commitlint-plugin-workspace-scopes": "^1.1.0",
     "conventional-changelog-cli": "^2.2.2",
     "husky": "^8.0.1",
-    "license-checker": "^25.0.1",
+    "license-checker-rseidelsohn": "^3.1.0",
     "npm-run-all": "^4.1.5",
     "rimraf": "^3.0.2",
     "secretlint": "^5.2.3",

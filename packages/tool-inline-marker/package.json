@@ -23,7 +23,7 @@
     "tsc": "tsc --emitDeclarationOnly --declaration --declarationDir dist/types",
     "clear": "rimraf ./dist",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "license-checker": "license-checker --production --json --out ./.licenselist.json",
+    "license-checker": "license-checker-rseidelsohn --production --json --out ./.licenselist.json",
     "changelog": "conventional-changelog --preset conventionalcommits --release-count 0 --commit-path $PWD --pkg $PWD/package.json --infile $PWD/CHANGELOG.md --tag-prefix ${npm_package_name}/ --same-file"
   },
   "repository": {
