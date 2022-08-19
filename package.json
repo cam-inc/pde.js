@@ -5,13 +5,13 @@
   "volta": {
     "node": "16.14.2"
   },
-  "license": "MIT",
+  "license": "Apache-2.0",
   "scripts": {
     "preflight": "npm ci .",
     "dev": "turbo run dev --parallel",
     "build": "turbo run build",
     "test": "turbo run test",
-    "clean": "turbo run clean",
+    "clear": "turbo run clear",
     "graph": "turbo run build test lint format clean --graph=task-graph.png"
   },
   "workspaces": [
@@ -21,12 +21,13 @@
   "devDependencies": {
     "@commitlint/cli": "^17.0.3",
     "@commitlint/config-conventional": "^17.0.3",
-    "bunchee": "^1.9.0",
     "commitlint-plugin-workspace-scopes": "^1.1.0",
     "conventional-changelog-cli": "^2.2.2",
     "husky": "^8.0.1",
+    "npm-run-all": "^4.1.5",
     "rimraf": "^3.0.2",
     "turbo": "^1.4.2",
-    "typescript": "^4.7.4"
+    "typescript": "^4.7.4",
+    "vite": "^3.0.8"
   }
 }
