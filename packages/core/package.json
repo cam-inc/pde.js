@@ -22,7 +22,7 @@
     "build:lib": "vite build",
     "tsc": "tsc --emitDeclarationOnly --declaration --declarationDir dist/types",
     "clear": "rimraf ./dist",
-    "test": "run-p test:unit test:integration test:smoke",
+    "test": "run-p test:unit test:integration",
     "test:unit": "jest --testMatch \"<rootDir>/__tests__/unit/*.spec.{ts,tsx}\"",
     "test:integration": "jest --testMatch \"<rootDir>/__tests__/integration/*.spec.{ts,tsx}\"",
     "test:smoke": "node ./__tests__/smoke",
