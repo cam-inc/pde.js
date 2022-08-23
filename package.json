@@ -22,6 +22,7 @@
   "devDependencies": {
     "@commitlint/cli": "^17.0.3",
     "@commitlint/config-conventional": "^17.0.3",
+    "@editorjs/editorjs": "^2.25.0",
     "@secretlint/secretlint-rule-preset-recommend": "^5.2.3",
     "commitlint-plugin-workspace-scopes": "^1.1.0",
     "conventional-changelog-cli": "^2.2.2",
