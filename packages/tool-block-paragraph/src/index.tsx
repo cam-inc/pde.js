@@ -1,5 +1,5 @@
 /* @jsx h */
-import { h, useState } from '@pdejs/core';
+import { createPlugin, h, useState } from '@pdejs/core';
 
 import type {
   API,
@@ -41,7 +41,7 @@ const Paragraph = () => {
   );
 };
 
-export default Paragraph;
+export default createPlugin(<Paragraph />);
 
 class _Paragraph implements BlockTool {
   static get toolbox(): ToolboxConfig {

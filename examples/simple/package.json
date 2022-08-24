@@ -1,0 +1,36 @@
+{
+  "name": "@pdejs/example-simple",
+  "version": "0.0.1",
+  "description": "Simple example for PDEJS",
+  "main": "index.js",
+  "scripts": {
+    "clear": "rimraf dist",
+    "dev": "vite --host"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cam-inc/pde.js.git"
+  },
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/cam-inc/pde.js/issues"
+  },
+  "homepage": "https://github.com/cam-inc/pde.js#readme",
+  "contributers": [
+    {
+      "name": "Go Ohtani",
+      "url": "https://github.com/cathcheeno"
+    },
+    {
+      "name": "Shuta Hirai",
+      "url": "https://github.com/shuta13"
+    }
+  ],
+  "dependencies": {
+    "@pdejs/tool-block-paragraph": "*",
+    "@pdejs/tool-inline-marker": "*"
+  },
+  "devDependencies": {
+    "vite": "^3.0.9"
+  }
+}

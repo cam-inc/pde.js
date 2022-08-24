@@ -15,7 +15,7 @@
     "clear": "turbo run clear",
     "graph": "turbo run build test lint format clean --graph=task-graph.png"
   },
-  "workspaces": ["packages/*", "apps/*"],
+  "workspaces": ["apps/*", "examples/*", "packages/*"],
   "devDependencies": {
     "@commitlint/cli": "^17.0.3",
     "@commitlint/config-conventional": "^17.0.3",

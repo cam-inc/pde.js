@@ -1,10 +1,4 @@
-import { ToolConstructable } from '@editorjs/editorjs';
-import {
-  hasOwnProperty,
-  isEditorJSVNode,
-  isReadOnlyHtmlAttribute,
-} from '../helpers';
-import { pluginMethodPrefixes } from '../constants';
+import { hasOwnProperty, isReadOnlyHtmlAttribute } from '../helpers';
 import { PDJSX, VNode } from '../types';
 // import type { UnionToIntersection } from "type-fest";
 // import { isObjectFactory } from "./helpers";
