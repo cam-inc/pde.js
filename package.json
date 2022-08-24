@@ -8,17 +8,14 @@
   "license": "Apache-2.0",
   "scripts": {
     "preflight": "npm ci .",
-    "postinstall": "turbo run license-checker",
+    "postinstall": "npx husky install && turbo run license-checker",
     "dev": "turbo run dev --parallel",
     "build": "turbo run build",
     "test": "turbo run test",
     "clear": "turbo run clear",
     "graph": "turbo run build test lint format clean --graph=task-graph.png"
   },
-  "workspaces": [
-    "packages/*",
-    "apps/*"
-  ],
+  "workspaces": ["packages/*", "apps/*"],
   "devDependencies": {
     "@commitlint/cli": "^17.0.3",
     "@commitlint/config-conventional": "^17.0.3",
