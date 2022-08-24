@@ -12,7 +12,7 @@
     "baseUrl": ".",
     "outDir": "dist",
     "paths": {
-      "react": ["./src/types.ts"]
+      "react": ["./node_modules/@pdejs/core/"]
     }
   },
   "exclude": ["__tests__/**", "dist", "*.config.ts"],

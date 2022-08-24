@@ -236,7 +236,7 @@ declare global {
     export interface Element<P = any> {
       type: ComponentType<P> | string;
       props: P & { children: VNode | string | number | null };
-      key: Key;
+      key: Key | null;
       ref?: Ref<any> | null;
     }
   }

@@ -5,7 +5,7 @@
   "description": "Tool inline marker plugin for Editor.js.",
   "main": "./dist/cjs.js",
   "module": "./dist/es.js",
-  "types": "./dist/index.d.ts",
+  "types": "./dist/types/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/es.js",
@@ -45,5 +45,8 @@
     "url": "https://github.com/cam-inc/pde.js/issues"
   },
   "homepage": "https://github.com/cam-inc/pde.js#readme",
-  "devDependencies": {}
+  "devDependencies": {},
+  "peerDependencies": {
+    "@pdejs/core": "*"
+  }
 }
