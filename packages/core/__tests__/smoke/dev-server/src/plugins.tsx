@@ -1,7 +1,16 @@
 /* @jsx h */
-import EditorJS from '@editorjs/editorjs';
-import { h, useState, useEffect, createPlugin } from '../../../../dist/es';
-import type { PDJSX } from '../../../../dist/types';
+import EditorJS, {
+  API,
+  InlineToolConstructorOptions,
+} from '@editorjs/editorjs';
+import {
+  h,
+  useState,
+  useEffect,
+  createPlugin,
+  Fragment,
+} from '../../../../src';
+import type { PDJSX } from '../../../../src/';
 
 const CustomTool = () => {
   const handleClick = () => {
@@ -47,26 +56,54 @@ const CustomTool = () => {
 const SampleWithHooks = () => {
   const [show, setShow] = useState(true);
   const [text, setText] = useState('Hello');
-  const handleClick = () => {
-    setShow((prevState) => !prevState);
-  };
-  const handleChange = (e: Event) => {
-    if (e.target instanceof HTMLInputElement) {
-      setText(e.target.value);
-    }
-  };
+  const [api, setApi] = useState<API | null>(null);
+
   useEffect(() => {
-    console.log(text);
+    console.log('(show in useEffect)', show);
+  }, [show]);
+
+  useEffect(() => {
+    console.log('(text in useEffect)', text);
   }, [text]);
+
+  useEffect(() => {
+    console.log('(api in useEffect)', api?.styles.inlineToolButton);
+  }, [api]);
+
+  const initializer = ({ api, config }: InlineToolConstructorOptions) => {
+    setApi(api);
+  };
+
   const save = (blockContent: HTMLElement) => {
     return {
       text: blockContent.innerText,
     };
   };
+
+  const handleClick = () => {
+    setShow((prevState) => !prevState);
+  };
+
+  const handleChange = (e: Event) => {
+    if (e.target instanceof HTMLInputElement) {
+      setText(e.target.value);
+    }
+  };
+
+  const handleSubmit = (e: Event) => {
+    console.log('text submitted: ', text);
+    console.log('api submitted: ', api);
+    e.preventDefault();
+  };
+
   return (
     <tool
+      initializer={initializer}
       save={save}
-      static_get_toolbox={{ title: 'SampleWithHooks', icon: '<span>🧪</span>' }}
+      static_get_toolbox={{
+        title: 'SampleWithHooks',
+        icon: `<span>🧪</span>`,
+      }}
     >
       <div>
         <span onClick={handleClick}>{text}</span>
@@ -82,11 +119,20 @@ const SampleWithHooks = () => {
               color: 'white',
             }}
           >
-            <form style={{ width: '100%', padding: '8px' }}>
-              <input style={{ width: '100%' }} onChange={handleChange} />
+            <form
+              style={{ width: '100%', padding: '8px' }}
+              onSubmit={handleSubmit}
+            >
+              <input
+                style={{ width: '100%' }}
+                onChange={handleChange}
+                value={text}
+              />
+              <input type="submit" value="Submit" />
             </form>
           </div>
         )}
+        {api && <pre>{api.styles.inlineToolButton}</pre>}
       </div>
     </tool>
   );

@@ -15,6 +15,6 @@
       "react": ["./src/types.ts"]
     }
   },
-  "exclude": ["__tests__/**", "dist", "*.config.ts"],
+  "exclude": ["dist", "*.config.ts"],
   "$schema": "https://json.schemastore.org/tsconfig.json"
 }
