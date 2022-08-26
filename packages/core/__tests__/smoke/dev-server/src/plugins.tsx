@@ -3,57 +3,12 @@ import EditorJS, {
   API,
   InlineToolConstructorOptions,
 } from '@editorjs/editorjs';
-import {
-  h,
-  useState,
-  useEffect,
-  createPlugin,
-  Fragment,
-} from '../../../../src';
+import { h, useState, useEffect, createPlugin } from '../../../../src';
 import type { PDJSX } from '../../../../src/';
 
-const CustomTool = () => {
-  const handleClick = () => {
-    console.log('clicked');
-  };
-  const handleSave = (blockContent: HTMLElement) => {
-    return {
-      text: blockContent.innerText,
-    };
-  };
-  const initializer: PDJSX.ToolAttributes['initializer'] = (params) => {
-    console.log(params);
-  };
-  return (
-    <tool
-      initializer={initializer}
-      save={handleSave}
-      validate={undefined}
-      renderSettings={undefined}
-      destory={undefined}
-      onPaste={undefined}
-      merge={undefined}
-      static_get_pasteConfig={undefined}
-      static_get_sanitize={undefined}
-      static_get_shortcut={undefined}
-      static_get_conversionConfig={undefined}
-      static_get_enableLineBreaks={undefined}
-      static_get_isReadOnlySupported={undefined}
-      static_get_toolbox={{ title: 'CustomTool', icon: '<span>🔮</span>' }}
-    >
-      <div>
-        <button
-          style={{ border: 'none', cursor: 'pointer' }}
-          onClick={handleClick}
-        >
-          button
-        </button>
-      </div>
-    </tool>
-  );
-};
-
 const SampleWithHooks = () => {
+  console.log('render or re-render');
+
   const [show, setShow] = useState(true);
   const [text, setText] = useState('Hello');
   const [api, setApi] = useState<API | null>(null);
@@ -67,7 +22,7 @@ const SampleWithHooks = () => {
   }, [text]);
 
   useEffect(() => {
-    console.log('(api in useEffect)', api?.styles.inlineToolButton);
+    console.log('(api in useEffect)', api);
   }, [api]);
 
   const initializer = ({ api, config }: InlineToolConstructorOptions) => {
@@ -107,32 +62,62 @@ const SampleWithHooks = () => {
     >
       <div>
         <span onClick={handleClick}>{text}</span>
-        {show && (
-          <div
-            style={{
-              width: '128px',
-              height: '64px',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              background: 'gray',
-              color: 'white',
-            }}
+        {/*{show && (*/}
+        <div
+          style={{
+            width: '128px',
+            height: '64px',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            background: 'gray',
+            color: 'white',
+          }}
+        >
+          <form
+            style={{ width: '100%', padding: '8px' }}
+            onSubmit={handleSubmit}
           >
-            <form
-              style={{ width: '100%', padding: '8px' }}
-              onSubmit={handleSubmit}
-            >
-              <input
-                style={{ width: '100%' }}
-                onChange={handleChange}
-                value={text}
-              />
-              <input type="submit" value="Submit" />
-            </form>
-          </div>
-        )}
+            <input
+              style={{ width: '100%' }}
+              onChange={handleChange}
+              value={text}
+            />
+            <input type="submit" value="Submit" />
+          </form>
+        </div>
+        {/*)}*/}
         {api && <pre>{api.styles.inlineToolButton}</pre>}
+      </div>
+    </tool>
+  );
+};
+
+const CustomTool = () => {
+  const handleClick = () => {
+    console.log('clicked');
+  };
+  const handleSave = (blockContent: HTMLElement) => {
+    return {
+      text: blockContent.innerText,
+    };
+  };
+  const initializer: PDJSX.ToolAttributes['initializer'] = (params) => {
+    console.log('CustomTool', params);
+  };
+  return (
+    <tool
+      initializer={initializer}
+      save={handleSave}
+      static_get_toolbox={{ title: 'CustomTool', icon: '<span>🔮</span>' }}
+    >
+      <div>
+        <button
+          style={{ border: 'none', cursor: 'pointer' }}
+          onClick={handleClick}
+        >
+          button
+        </button>
       </div>
     </tool>
   );
@@ -140,19 +125,14 @@ const SampleWithHooks = () => {
 
 const CustomInlineTool = () => {
   const initializer: PDJSX.InlineToolAttributes['initializer'] = (params) => {
-    console.log(params);
+    console.log('CustomInlineTool', params);
   };
   return (
     <inlineTool
       initializer={initializer}
       surround={() => {}}
       checkState={() => {}}
-      renderActions={undefined}
-      clear={undefined}
       static_get_isInline={true}
-      get_shortcut={undefined}
-      static_get_sanitize={undefined}
-      static_get_title={undefined}
     >
       <div className="inline-tool-container">
         <span className="ce-inline-tool">📝</span>
@@ -163,64 +143,65 @@ const CustomInlineTool = () => {
 
 const CustomBlockTune = () => {
   const initializer: PDJSX.BlockTuneAttributes['initializer'] = (params) => {
-    console.log(params);
+    console.log('CustomBlockTune', params);
   };
   return (
-    <blockTune
-      initializer={initializer}
-      save={undefined}
-      wrap={undefined}
-      static_get_isTune={true}
-      static_prepare={undefined}
-      static_reset={undefined}
-    >
-      <div>
-        <span>BlockTune</span>
-        <div>
-          <span>nested</span>
-        </div>
-        <span />
-        <div>
-          {/* test comment */}
-          <button>button</button>
-          <button>button</button>
-          <button>button</button>
-          <button>button</button>
-          <button>button</button>
-        </div>
-      </div>
+    <blockTune initializer={initializer} static_get_isTune={true}>
+      <span>🎸</span>
     </blockTune>
   );
 };
 
-const e = document.createElement('div');
-e.id = 'editorjs';
-document.body.appendChild(e);
+const containerElm = document.querySelector<HTMLDivElement>('#container');
+const saveElm = document.querySelector<HTMLButtonElement>('#save');
+const outputElm = document.querySelector<HTMLPreElement>('#output');
 
-const customTool = createPlugin(<CustomTool />);
-const sampleWithHooks = createPlugin(<SampleWithHooks />);
-const customInlineTool = createPlugin(<CustomInlineTool />);
-const customBlockTune = createPlugin(<CustomBlockTune />);
+if (!containerElm) {
+  throw new Error('Could not find the element#container');
+}
 
 const editor = new EditorJS({
-  holder: 'editorjs',
+  holder: containerElm,
   tools: {
-    customTool,
-    sampleWithHooks,
-    customInlineTool,
-    customBlockTune,
+    customTool: {
+      class: createPlugin(<CustomTool />),
+    },
+    customInlineTool: {
+      class: createPlugin(<CustomInlineTool />),
+      inlineToolbar: true,
+    },
+    customBlockTune: {
+      class: createPlugin(<CustomBlockTune />),
+    },
+    sampleWithHooks: {
+      class: createPlugin(<SampleWithHooks />),
+    },
   },
+  data: {
+    blocks: [],
+  },
+  tunes: ['customBlockTune'],
+  onReady: () => {
+    console.log('[EDITORJS] Editor.js is ready to work!');
+  },
+  onChange: (_, event) => {
+    console.log("[EDITORJS] Now I know that Editor's content changed!", event);
+  },
+  autofocus: true,
+  placeholder: "Let's write an awesome story!",
 });
 
-editor.isReady.then(() => {
-  const saveButton = document.createElement('button');
-  saveButton.innerText = 'save';
-  saveButton.addEventListener('click', () => {
-    editor.save().then((output) => {
-      const outputContainer = document.createElement('pre');
-      outputContainer.innerText = JSON.stringify(output);
-      document.body.appendChild(outputContainer);
+saveElm?.addEventListener('click', () => {
+  editor
+    .save()
+    .then((outputData) => {
+      if (outputElm !== null) {
+        outputElm.innerText = JSON.stringify(outputData);
+      }
+    })
+    .catch((error) => {
+      if (outputElm !== null) {
+        outputElm.innerText = JSON.stringify(error);
+      }
     });
-  });
-  document.body.appendChild(saveButton);
 });
