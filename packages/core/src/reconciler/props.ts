@@ -1,3 +1,4 @@
+import { options } from '../options';
 import { hasOwnProperty, isReadOnlyHtmlAttribute } from '../helpers';
 import { PDJSX, VNode } from '../types';
 // import type { UnionToIntersection } from "type-fest";
@@ -76,18 +77,24 @@ export const setProps = ({ dom, key, newValue, oldValue }: SetPropsParams) => {
       }
     }
   } else if (key.startsWith('on')) {
+    const useCapture = key !== (key = key.replace(/Capture$/, ''));
     const lowerKey = key.toLowerCase();
     // NOTE: `in` is better than `hasOwnProperty` when we want to check
     // the existence of the DOM premitive events.
-    const eventName = lowerKey in dom ? lowerKey : key;
-    const eventType = eventName.slice(2);
-    const eventListener = function (e: Event) {
-      if (newValue) (newValue as Function)(e);
-    };
-    if (newValue && !oldValue) {
-      dom.addEventListener(eventType, eventListener);
+    const eventType = (lowerKey in dom ? lowerKey : key).slice(2);
+    if (!dom._listeners) {
+      dom._listeners = {};
+    }
+    // @ts-expect-error newValue is event listener
+    dom._listeners[eventType + useCapture] = newValue;
+    if (newValue) {
+      if (!oldValue) {
+        const handler = useCapture ? eventProxyCapture : eventProxy;
+        dom.addEventListener(eventType, handler, useCapture);
+      }
     } else {
-      dom.removeEventListener(eventType, eventListener);
+      const handler = useCapture ? eventProxyCapture : eventProxy;
+      dom.removeEventListener(eventType, handler);
     }
   } else if (isReadOnlyHtmlAttribute(key, dom)) {
     // @ts-expect-error Set readonly props
@@ -140,6 +147,21 @@ export const reconcileProps = ({
     }
   }
 };
+
+/**
+ * Proxy an event to hooked event handlers
+ * sourced: https://github.com/preactjs/preact/blob/17da4efa736f14c84cd9f36fca4420d94f0dd403/src/diff/props.js#L147-L158
+ * NOTE: We added `@ts-expect-error` without any comments because checked the smoketest of trying the source.
+ */
+function eventProxy(e: Event) {
+  // @ts-expect-error
+  this._listeners[e.type + false](options.event ? options.event(e) : e);
+}
+
+function eventProxyCapture(e: Event) {
+  // @ts-expect-error
+  this._listeners[e.type + true](options.event ? options.event(e) : e);
+}
 
 // TODO: JSX as props
 // const transformPluginProps = (

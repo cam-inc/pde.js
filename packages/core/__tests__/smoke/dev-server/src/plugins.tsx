@@ -9,20 +9,21 @@ import type { PDJSX } from '../../../../src/';
 const SampleWithHooks = () => {
   console.log('render or re-render');
 
-  const [show, setShow] = useState(true);
-  const [text, setText] = useState('Hello');
+  const [show, setShow] = useState(false);
+  const [text, setText] = useState('Ping');
   const [api, setApi] = useState<API | null>(null);
+  const [toRed, setToRed] = useState(false);
 
   useEffect(() => {
-    console.log('(show in useEffect)', show);
+    console.log('[useEffect] show: ', show);
   }, [show]);
 
   useEffect(() => {
-    console.log('(text in useEffect)', text);
+    console.log('[useEffect] text: ', text);
   }, [text]);
 
   useEffect(() => {
-    console.log('(api in useEffect)', api);
+    console.log('[useEffect] api: ', api);
   }, [api]);
 
   const initializer = ({ api, config }: InlineToolConstructorOptions) => {
@@ -46,8 +47,8 @@ const SampleWithHooks = () => {
   };
 
   const handleSubmit = (e: Event) => {
-    console.log('text submitted: ', text);
-    console.log('api submitted: ', api);
+    console.log('[handleSubmit] text: ', text);
+    console.log('[handleSubmit] api:  ', api);
     e.preventDefault();
   };
 
@@ -61,8 +62,9 @@ const SampleWithHooks = () => {
       }}
     >
       <div>
-        <span onClick={handleClick}>{text}</span>
-        {/*{show && (*/}
+        <span style={{ cursor: 'pointer' }} onClick={handleClick}>
+          {text}
+        </span>
         <div
           style={{
             width: '128px',
@@ -75,7 +77,11 @@ const SampleWithHooks = () => {
           }}
         >
           <form
-            style={{ width: '100%', padding: '8px' }}
+            style={{
+              width: '100%',
+              padding: '8px',
+              color: toRed ? 'red' : 'green',
+            }}
             onSubmit={handleSubmit}
           >
             <input
@@ -86,8 +92,14 @@ const SampleWithHooks = () => {
             <input type="submit" value="Submit" />
           </form>
         </div>
-        {/*)}*/}
         {api && <pre>{api.styles.inlineToolButton}</pre>}
+        {show && <div>Pong</div>}
+        <button
+          onClick={() => setToRed((prevState) => !prevState)}
+          style={{ color: toRed ? 'red' : 'green' }}
+        >
+          BUTTON
+        </button>
       </div>
     </tool>
   );
@@ -103,7 +115,7 @@ const CustomTool = () => {
     };
   };
   const initializer: PDJSX.ToolAttributes['initializer'] = (params) => {
-    console.log('CustomTool', params);
+    console.log('[CustomTool] ', params);
   };
   return (
     <tool
@@ -125,7 +137,7 @@ const CustomTool = () => {
 
 const CustomInlineTool = () => {
   const initializer: PDJSX.InlineToolAttributes['initializer'] = (params) => {
-    console.log('CustomInlineTool', params);
+    console.log('[CustomInlineTool] ', params);
   };
   return (
     <inlineTool
@@ -134,8 +146,8 @@ const CustomInlineTool = () => {
       checkState={() => {}}
       static_get_isInline={true}
     >
-      <div className="inline-tool-container">
-        <span className="ce-inline-tool">📝</span>
+      <div className="ce-inline-tool">
+        <span>📝</span>
       </div>
     </inlineTool>
   );
@@ -143,7 +155,7 @@ const CustomInlineTool = () => {
 
 const CustomBlockTune = () => {
   const initializer: PDJSX.BlockTuneAttributes['initializer'] = (params) => {
-    console.log('CustomBlockTune', params);
+    console.log('[CustomBlockTune] ', params);
   };
   return (
     <blockTune initializer={initializer} static_get_isTune={true}>
@@ -158,6 +170,10 @@ const outputElm = document.querySelector<HTMLPreElement>('#output');
 
 if (!containerElm) {
   throw new Error('Could not find the element#container');
+}
+
+if (!outputElm) {
+  throw new Error('Cloud not find the element#output');
 }
 
 const editor = new EditorJS({
@@ -195,13 +211,9 @@ saveElm?.addEventListener('click', () => {
   editor
     .save()
     .then((outputData) => {
-      if (outputElm !== null) {
-        outputElm.innerText = JSON.stringify(outputData);
-      }
+      outputElm.innerText = JSON.stringify(outputData);
     })
     .catch((error) => {
-      if (outputElm !== null) {
-        outputElm.innerText = JSON.stringify(error);
-      }
+      outputElm.innerText = JSON.stringify(error);
     });
 });

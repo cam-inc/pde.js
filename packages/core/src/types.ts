@@ -142,6 +142,7 @@ export namespace PDJSX {
       | InlineToolAttributes
       | BlockTuneAttributes
       | null;
+    _listeners?: { [key: string]: (e: Event) => void };
     data?: string | number;
   }
 
