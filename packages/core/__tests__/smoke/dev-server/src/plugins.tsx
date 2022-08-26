@@ -2,6 +2,7 @@
 import EditorJS, {
   API,
   InlineToolConstructorOptions,
+  ToolConfig,
 } from '@editorjs/editorjs';
 import { h, useState, useEffect, createPlugin } from '../../../../src';
 import type { PDJSX } from '../../../../src/';
@@ -10,24 +11,27 @@ const SampleWithHooks = () => {
   console.log('render or re-render');
 
   const [show, setShow] = useState(false);
+  const [value, setValue] = useState('');
   const [text, setText] = useState('Ping');
+
   const [api, setApi] = useState<API | null>(null);
-  const [toRed, setToRed] = useState(false);
+  const [config, setConfig] = useState<ToolConfig | null>(null);
 
   useEffect(() => {
-    console.log('[useEffect] show: ', show);
+    console.log('[useEffect] show changed!: ', show);
   }, [show]);
 
   useEffect(() => {
-    console.log('[useEffect] text: ', text);
-  }, [text]);
+    console.log('[useEffect] value changed!: ', value);
+  }, [value]);
 
   useEffect(() => {
-    console.log('[useEffect] api: ', api);
+    console.log('[useEffect] api changed!: ', api);
   }, [api]);
 
   const initializer = ({ api, config }: InlineToolConstructorOptions) => {
     setApi(api);
+    setConfig(config);
   };
 
   const save = (blockContent: HTMLElement) => {
@@ -42,13 +46,14 @@ const SampleWithHooks = () => {
 
   const handleChange = (e: Event) => {
     if (e.target instanceof HTMLInputElement) {
-      setText(e.target.value);
+      setValue(e.target.value);
     }
   };
 
   const handleSubmit = (e: Event) => {
-    console.log('[handleSubmit] text: ', text);
+    setText(value);
     console.log('[handleSubmit] api:  ', api);
+    console.log('[handleSubmit] config:  ', config);
     e.preventDefault();
   };
 
@@ -64,6 +69,7 @@ const SampleWithHooks = () => {
       <div>
         <span style={{ cursor: 'pointer' }} onClick={handleClick}>
           {text}
+          {show && <span>'clicked!'</span>}
         </span>
         <div
           style={{
@@ -80,26 +86,18 @@ const SampleWithHooks = () => {
             style={{
               width: '100%',
               padding: '8px',
-              color: toRed ? 'red' : 'green',
             }}
             onSubmit={handleSubmit}
           >
             <input
               style={{ width: '100%' }}
-              onChange={handleChange}
-              value={text}
+              onChangeCapture={handleChange}
+              value={value}
             />
             <input type="submit" value="Submit" />
           </form>
         </div>
         {api && <pre>{api.styles.inlineToolButton}</pre>}
-        {show && <div>Pong</div>}
-        <button
-          onClick={() => setToRed((prevState) => !prevState)}
-          style={{ color: toRed ? 'red' : 'green' }}
-        >
-          BUTTON
-        </button>
       </div>
     </tool>
   );
