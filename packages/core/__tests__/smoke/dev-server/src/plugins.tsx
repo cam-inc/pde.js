@@ -91,7 +91,7 @@ const SampleWithHooks = () => {
           >
             <input
               style={{ width: '100%' }}
-              onChangeCapture={handleChange}
+              onInput={handleChange}
               value={value}
             />
             <input type="submit" value="Submit" />
@@ -99,6 +99,17 @@ const SampleWithHooks = () => {
         </div>
         {api && <pre>{api.styles.inlineToolButton}</pre>}
       </div>
+    </tool>
+  );
+};
+
+const SampleWithContentEdiable = () => {
+  return (
+    <tool
+      static_get_toolbox={{ title: 'SampleWithContentEdiable', icon: '✍️' }}
+      save={() => {}}
+    >
+      <div contentEditable={true}></div>
     </tool>
   );
 };
@@ -177,6 +188,12 @@ if (!outputElm) {
 const editor = new EditorJS({
   holder: containerElm,
   tools: {
+    sampleWithHooks: {
+      class: createPlugin(<SampleWithHooks />),
+    },
+    sampleWithContentEditable: {
+      class: createPlugin(<SampleWithContentEdiable />),
+    },
     customTool: {
       class: createPlugin(<CustomTool />),
     },
@@ -186,9 +203,6 @@ const editor = new EditorJS({
     },
     customBlockTune: {
       class: createPlugin(<CustomBlockTune />),
-    },
-    sampleWithHooks: {
-      class: createPlugin(<SampleWithHooks />),
     },
   },
   data: {

@@ -45,8 +45,7 @@
     "url": "https://github.com/cam-inc/pde.js/issues"
   },
   "homepage": "https://github.com/cam-inc/pde.js#readme",
-  "devDependencies": {},
-  "peerDependencies": {
+  "devDependencies": {
     "@pdejs/core": "*"
   }
 }

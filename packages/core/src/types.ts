@@ -6,6 +6,7 @@ import {
   ToolConfig,
   BlockAPI,
   EditorConfig,
+  BlockToolData,
 } from '@editorjs/editorjs';
 import { BlockTuneData } from '@editorjs/editorjs/types/block-tunes/block-tune-data';
 
@@ -158,7 +159,7 @@ export namespace PDJSX {
     children: ComponentChild | ComponentChild[];
     save: (blockContent: C) => void;
     initializer?: PluginInitializer<BlockToolConstructorOptions>;
-    validate?: boolean;
+    validate?: (savedData: BlockToolData) => boolean;
     // TODO: JSX as props
     renderSettings?: { name: string; icon: string }[];
     // renderSettings?: { name: string; icon: JSX.IntrinsicElements }[];

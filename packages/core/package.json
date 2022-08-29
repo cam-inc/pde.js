@@ -20,7 +20,7 @@
     "dev:type": "npm run tsc -- --watch",
     "build": "run-s build:lib tsc",
     "build:lib": "vite build",
-    "tsc": "tsc --emitDeclarationOnly --declaration --declarationDir dist/types",
+    "tsc": "tsc --project tsconfig.build.json --emitDeclarationOnly --declaration --declarationDir dist/types",
     "clear": "rimraf ./dist",
     "test": "run-p test:unit test:integration",
     "test:unit": "jest --testMatch \"<rootDir>/__tests__/unit/*.spec.{ts,tsx}\"",

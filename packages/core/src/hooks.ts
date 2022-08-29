@@ -296,10 +296,7 @@ export const useReducer = <S>(
 
 export const useState = <S = undefined>(initialState: S) => {
   currentHook = 1;
-  return useReducer<S>(invokeOrReturn, initialState) as [
-    S | undefined,
-    StateUpdater<S | undefined>
-  ];
+  return useReducer<S>(invokeOrReturn, initialState) as [S, StateUpdater<S>];
 };
 
 export const useEffect = (callback: Effect, args: any[]) => {
