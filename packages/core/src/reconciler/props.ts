@@ -105,7 +105,7 @@ export const setProps = ({ dom, key, newValue, oldValue }: SetPropsParams) => {
   ) {
     dom.setAttribute(key, newValue);
   } else if (key === 'contentEditable') {
-    dom.setAttribute('contentediable', newValue as unknown as string);
+    dom.setAttribute('contenteditable', newValue as unknown as string);
   } else {
     // @ts-expect-error
     dom._pluginProps[key] = newValue;

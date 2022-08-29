@@ -62,15 +62,25 @@ export const assign = (
   return obj;
 };
 
-export const createPluginClass = (pluginProps: VNode['pluginProps']) => {
+export const createPluginClass = (
+  pluginProps: VNode['pluginProps'],
+  render: () => HTMLElement
+) => {
   if (pluginProps) {
     const { STATIC_GETTER, STATIC_METHOD, CONSTRUCTOR } = pluginMethodPrefixes;
 
     class PluginDeclarative {
+      private params: any;
+      private initializer: NonNullable<VNode['pluginProps']>['initializer'];
+
+      public render: () => HTMLElement;
+
       constructor(params: any) {
         if (pluginProps?.initializer) {
-          pluginProps.initializer(params);
+          this.initializer = pluginProps.initializer;
         }
+        this.params = params;
+        this.render = render;
       }
     }
 
@@ -87,7 +97,7 @@ export const createPluginClass = (pluginProps: VNode['pluginProps']) => {
       }
     }
 
-    return PluginDeclarative as ToolConstructable;
+    return PluginDeclarative as unknown as ToolConstructable;
   } else {
     return class {} as unknown as ToolConstructable;
   }

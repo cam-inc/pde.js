@@ -1,6 +1,8 @@
 /* @jsx h */
 import EditorJS, {
   API,
+  BlockToolConstructorOptions,
+  BlockToolData,
   InlineToolConstructorOptions,
   ToolConfig,
 } from '@editorjs/editorjs';
@@ -91,7 +93,7 @@ const SampleWithHooks = () => {
           >
             <input
               style={{ width: '100%' }}
-              onInput={handleChange}
+              onChange={handleChange}
               value={value}
             />
             <input type="submit" value="Submit" />
@@ -104,12 +106,20 @@ const SampleWithHooks = () => {
 };
 
 const SampleWithContentEdiable = () => {
+  const [data, setData] = useState<BlockToolData | null>(null);
+  const initializer = ({ data }: BlockToolConstructorOptions) => {
+    setData(data);
+  };
+  useEffect(() => {
+    console.log('[useEffect data] ', data?.value);
+  }, [data]);
   return (
     <tool
+      initializer={initializer}
       static_get_toolbox={{ title: 'SampleWithContentEdiable', icon: '✍️' }}
       save={() => {}}
     >
-      <div contentEditable={true}></div>
+      <div contentEditable={true}>default value: {data?.value}</div>
     </tool>
   );
 };
@@ -206,7 +216,20 @@ const editor = new EditorJS({
     },
   },
   data: {
-    blocks: [],
+    blocks: [
+      {
+        type: 'sampleWithContentEditable',
+        data: {
+          value: 'initial paragraph 01',
+        },
+      },
+      {
+        type: 'sampleWithContentEditable',
+        data: {
+          value: 'initial paragraph 02',
+        },
+      },
+    ],
   },
   tunes: ['customBlockTune'],
   onReady: () => {

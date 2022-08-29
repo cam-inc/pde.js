@@ -38,6 +38,13 @@ export const createPlugin = (
       const wrapper = document.createElement('x-pd');
       wrapper.id = id;
       wrapper.appendChild(dom);
+
+      // @ts-expect-error
+      if (this.initializer) {
+        // @ts-expect-error
+        this.initializer(this.params);
+      }
+
       return wrapper;
     } else {
       throw new Error('The new dom is empty.');
@@ -55,10 +62,9 @@ export const createPlugin = (
       oldVNode: null,
       commitQueue: [],
       oldDom: null,
-    })?._pluginProps ?? null
+    })?._pluginProps ?? null,
+    render
   );
-
-  PluginDeclarative.prototype.render = render;
 
   commitRoot(commitQueue);
 
