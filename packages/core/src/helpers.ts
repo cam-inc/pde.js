@@ -3,6 +3,9 @@ import { PDJSX, PDJSXVNodeType, VNode } from './types';
 import { paramCase } from 'change-case';
 import { ToolConstructable } from '@editorjs/editorjs';
 
+const { STATIC_GETTER, STATIC_METHOD, CONSTRUCTOR, UNSTABLE_METHODS } =
+  pluginMethodPrefixes;
+
 export const isWhiteSpace = (str: string) => str === ' ';
 
 export const hasOwnProperty = <T = {}>(thisArg: T, key: keyof T) =>
@@ -67,8 +70,6 @@ export const createPluginClass = (
   render: () => HTMLElement
 ) => {
   if (pluginProps) {
-    const { STATIC_GETTER, STATIC_METHOD, CONSTRUCTOR } = pluginMethodPrefixes;
-
     class PluginDeclarative {
       private params: any;
       private initializer: NonNullable<VNode['pluginProps']>['initializer'];
@@ -91,9 +92,27 @@ export const createPluginClass = (
       } else if (k.startsWith(STATIC_METHOD)) {
         const key = k.replace(STATIC_METHOD, '');
         PluginDeclarative[key as keyof typeof PluginDeclarative] = v;
+      } else if (k.startsWith(UNSTABLE_METHODS.RENDER_SETTINGS)) {
+        PluginDeclarative.prototype[
+          k as keyof typeof PluginDeclarative['prototype']
+        ] = () => {
+          const { wrapper, button, icons } = v as NonNullable<
+            PDJSX.ToolAttributes['renderSettings']
+          >;
+          const wrapperElement = stringToHtmlElement(wrapper);
+          icons.forEach((props) => {
+            const buttonElement = stringToHtmlElement(button);
+            if (buttonElement !== null) {
+              buttonElement.innerHTML = props.icon;
+              wrapperElement?.appendChild(buttonElement);
+            }
+          });
+          return wrapperElement as HTMLElement;
+        };
       } else if (!k.startsWith(CONSTRUCTOR)) {
-        // @ts-expect-error Class should have a property of the prototype.
-        PluginDeclarative.prototype[k] = v;
+        PluginDeclarative.prototype[
+          k as keyof typeof PluginDeclarative['prototype']
+        ] = v;
       }
     }
 
@@ -101,4 +120,10 @@ export const createPluginClass = (
   } else {
     return class {} as unknown as ToolConstructable;
   }
+};
+
+export const stringToHtmlElement = (str: string) => {
+  const element = document.createElement('div');
+  element.innerHTML = str;
+  return element.firstElementChild;
 };

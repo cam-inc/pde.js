@@ -161,7 +161,11 @@ export namespace PDJSX {
     initializer?: PluginInitializer<BlockToolConstructorOptions>;
     validate?: (savedData: BlockToolData) => boolean;
     // TODO: JSX as props
-    renderSettings?: { name: string; icon: string }[];
+    renderSettings?: {
+      wrapper: string;
+      button: string;
+      icons: { name: string; icon: string }[];
+    };
     // renderSettings?: { name: string; icon: JSX.IntrinsicElements }[];
     destory?: () => void;
     onPaste?: (event: PasteEvent) => void;
