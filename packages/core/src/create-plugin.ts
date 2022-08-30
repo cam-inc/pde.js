@@ -39,6 +39,7 @@ export const createPlugin = (
       wrapper.id = id;
       wrapper.appendChild(dom);
 
+      // NOTE: Call constructor after generating dom.
       // @ts-expect-error
       if (this.initializer) {
         // @ts-expect-error

@@ -20,6 +20,12 @@ const SampleWithHooks = () => {
   const [config, setConfig] = useState<ToolConfig | null>(null);
 
   useEffect(() => {
+    // FIXME: In this useEffect(called useMount), it rewrite state each state updater executed.
+    // setText('Pong')
+    console.log('mounted');
+  }, []);
+
+  useEffect(() => {
     console.log('[useEffect] show changed!: ', show);
   }, [show]);
 

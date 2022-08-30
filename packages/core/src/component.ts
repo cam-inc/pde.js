@@ -82,8 +82,13 @@ const renderComponent = (component: ComponentType) => {
 
     if (options.pluginName !== null) {
       const target = document.getElementById(options.pluginName);
+      const child = target?.firstElementChild;
       if (target && newDom) {
-        target.appendChild(newDom);
+        if (child != null) {
+          target.replaceChild(newDom, child);
+        } else {
+          target.appendChild(newDom);
+        }
       }
     }
 

@@ -151,14 +151,19 @@ options.render = (vNode) => {
     oldBeforeRender(vNode);
   }
 
-  if (vNode.component) {
+  if (vNode.component && vNode.pluginName) {
     vNode.component.pluginName = vNode.pluginName;
+    options.pluginName = vNode.component.pluginName;
   }
 
   currentComponent = vNode.component;
   currentIndex = 0;
 
-  options.pluginName = getSiblingPluginName() ?? null;
+  const siblingPluginName = getSiblingPluginName();
+  // NOTE: siblingPluginName has value after batching state updater.
+  // if (siblingPluginName != null) {
+  options.pluginName = siblingPluginName ?? null;
+  // }
 
   const hooks = currentComponent?.hooks ?? null;
   if (hooks !== null) {
