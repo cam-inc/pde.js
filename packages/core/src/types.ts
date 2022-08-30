@@ -188,7 +188,7 @@ export namespace PDJSX {
 
   export interface InlineToolAttributes {
     children: ComponentChild | ComponentChild[];
-    surround: (range: { [key: string]: any }) => void;
+    surround: (range: Range) => void;
     checkState: (selection: { [key: string]: any }) => void;
     renderActions?: () => JSX.IntrinsicElements;
     initializer?: PluginInitializer<InlineToolConstructorOptions>;
