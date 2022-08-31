@@ -9,7 +9,7 @@ import EditorJS, {
 import { h, useState, useEffect, createPlugin } from '../../../../src';
 import type { PDJSX } from '../../../../src/';
 
-const SampleWithHooks = () => {
+const WithHooks = () => {
   console.log('render or re-render');
 
   const [show, setShow] = useState(false);
@@ -111,7 +111,7 @@ const SampleWithHooks = () => {
   );
 };
 
-const SampleWithContentEdiable = () => {
+const WithContentEdiable = () => {
   const [data, setData] = useState<BlockToolData | null>(null);
   const initializer = ({ data }: BlockToolConstructorOptions) => {
     setData(data);
@@ -127,6 +127,24 @@ const SampleWithContentEdiable = () => {
     >
       <div contentEditable={true}>default value: {data?.value}</div>
     </tool>
+  );
+};
+
+const WithSvg = () => {
+  const surround = (range: Range) => {};
+  const checkState = () => {};
+  return (
+    <inlineTool
+      static_get_isInline={true}
+      surround={surround}
+      checkState={checkState}
+    >
+      <button class="ce-inline-tool">
+        <svg width="20" height="18">
+          <path d="M10.458 12.04l2.919 1.686-.781 1.417-.984-.03-.974 1.687H8.674l1.49-2.583-.508-.775.802-1.401zm.546-.952l3.624-6.327a1.597 1.597 0 0 1 2.182-.59 1.632 1.632 0 0 1 .615 2.201l-3.519 6.391-2.902-1.675zm-7.73 3.467h3.465a1.123 1.123 0 1 1 0 2.247H3.273a1.123 1.123 0 1 1 0-2.247z" />
+        </svg>
+      </button>
+    </inlineTool>
   );
 };
 
@@ -171,9 +189,7 @@ const CustomInlineTool = () => {
       checkState={() => {}}
       static_get_isInline={true}
     >
-      <div className="ce-inline-tool">
-        <span>📝</span>
-      </div>
+      <button class="ce-inline-tool">📝</button>
     </inlineTool>
   );
 };
@@ -204,11 +220,14 @@ if (!outputElm) {
 const editor = new EditorJS({
   holder: containerElm,
   tools: {
-    sampleWithHooks: {
-      class: createPlugin(<SampleWithHooks />),
+    withHooks: {
+      class: createPlugin(<WithHooks />),
     },
-    sampleWithContentEditable: {
-      class: createPlugin(<SampleWithContentEdiable />),
+    withContentEditable: {
+      class: createPlugin(<WithContentEdiable />),
+    },
+    withSvg: {
+      class: createPlugin(<WithSvg />),
     },
     customTool: {
       class: createPlugin(<CustomTool />),
@@ -224,13 +243,13 @@ const editor = new EditorJS({
   data: {
     blocks: [
       {
-        type: 'sampleWithContentEditable',
+        type: 'withContentEditable',
         data: {
           value: 'initial paragraph 01',
         },
       },
       {
-        type: 'sampleWithContentEditable',
+        type: 'withContentEditable',
         data: {
           value: 'initial paragraph 02',
         },

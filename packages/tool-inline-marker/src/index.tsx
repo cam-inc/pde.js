@@ -64,7 +64,7 @@ const Marker = () => {
       checkState={checkState}
     >
       <button
-        className={`${api?.styles.inlineToolButton ?? ''} ${
+        class={`${api?.styles.inlineToolButton ?? ''} ${
           marked ? api?.styles.inlineToolButtonActive : ''
         }`}
       >

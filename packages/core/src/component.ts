@@ -77,6 +77,7 @@ const renderComponent = (component: ComponentType) => {
       oldVNode,
       commitQueue,
       oldDom,
+      isSvg: parentDom.ownerSVGElement !== undefined,
     });
     commitRoot(commitQueue, vNode);
 

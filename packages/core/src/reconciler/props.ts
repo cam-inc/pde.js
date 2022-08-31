@@ -8,6 +8,7 @@ type ReconcilePropsParams = {
   dom: PDJSX.Element;
   newProps: VNode['props'];
   oldProps: VNode['props'] | { [key: string]: any };
+  isSvg: boolean;
 };
 
 type SetStylePropsParams = {
@@ -21,6 +22,7 @@ type SetPropsParams = {
   key: string;
   newValue: { [key: string]: any } | null;
   oldValue: string | { [key: string]: any };
+  isSvg: boolean;
 };
 
 export const setStyleProps = ({ dom, key, value }: SetStylePropsParams) => {
@@ -38,7 +40,13 @@ export const setStyleProps = ({ dom, key, value }: SetStylePropsParams) => {
   }
 };
 
-export const setProps = ({ dom, key, newValue, oldValue }: SetPropsParams) => {
+export const setProps = ({
+  dom,
+  key,
+  newValue,
+  oldValue,
+  isSvg,
+}: SetPropsParams) => {
   if (key === 'style') {
     if (typeof newValue === 'string') {
       dom.style.cssText = newValue;
@@ -104,6 +112,10 @@ export const setProps = ({ dom, key, newValue, oldValue }: SetPropsParams) => {
     key !== 'dangerouslySetInnerHTML'
   ) {
     dom.setAttribute(key, newValue);
+  } else if (isSvg && key !== 'dangerouslySetInnerHTML') {
+    key = key.replace(/xlink(H|:h)/, 'h').replace(/sName$/, 's');
+    // @ts-expect-error Set readonly props
+    dom[key] = newValue ?? '';
   } else if (key === 'contentEditable') {
     dom.setAttribute('contenteditable', newValue as unknown as string);
   } else {
@@ -116,6 +128,7 @@ export const reconcileProps = ({
   dom,
   newProps,
   oldProps,
+  isSvg,
 }: ReconcilePropsParams) => {
   for (const [oldKey, oldValue] of Object.entries(oldProps)) {
     if (
@@ -128,6 +141,7 @@ export const reconcileProps = ({
         key: oldKey,
         newValue: null,
         oldValue,
+        isSvg,
       });
     }
   }
@@ -145,6 +159,7 @@ export const reconcileProps = ({
         key: newKey,
         newValue,
         oldValue: oldProps[newKey],
+        isSvg,
       });
     }
   }

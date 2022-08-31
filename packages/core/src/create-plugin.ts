@@ -32,6 +32,7 @@ export const createPlugin = (
       oldVNode: null,
       commitQueue,
       oldDom: null,
+      isSvg: parentDom.ownerSVGElement !== undefined,
     });
 
     if (dom) {
@@ -63,6 +64,7 @@ export const createPlugin = (
       oldVNode: null,
       commitQueue: [],
       oldDom: null,
+      isSvg: _parentDom.ownerSVGElement !== undefined,
     })?._pluginProps ?? null,
     render
   );

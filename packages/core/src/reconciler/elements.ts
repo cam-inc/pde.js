@@ -8,6 +8,7 @@ export type ReconcileElementsParams = {
   newVNode: VNode;
   oldVNode: VNode | null;
   commitQueue: ComponentType[];
+  isSvg: boolean;
 };
 
 export const reconcileElements = ({
@@ -15,9 +16,15 @@ export const reconcileElements = ({
   newVNode,
   oldVNode,
   commitQueue,
+  isSvg,
 }: ReconcileElementsParams) => {
+  const nodeType = newVNode.type;
   const newProps = newVNode.props;
   const oldProps = oldVNode?.props ?? {};
+
+  if (nodeType === 'svg') {
+    isSvg = true;
+  }
 
   if (dom === null) {
     // NOTE: Not element but text node value
@@ -29,6 +36,11 @@ export const reconcileElements = ({
       dom = document.createDocumentFragment() as unknown as HTMLElement;
       const { children, ...pluginProps } = newProps;
       dom._pluginProps = pluginProps as VNode['pluginProps'];
+    } else if (isSvg) {
+      dom = document.createElementNS(
+        'http://www.w3.org/2000/svg',
+        nodeType as string
+      ) as unknown as HTMLElement;
     } else {
       dom = document.createElement(newVNode.type as string);
     }
@@ -45,6 +57,7 @@ export const reconcileElements = ({
       dom,
       newProps,
       oldProps,
+      isSvg,
     });
 
     const children = newVNode.props.children;
@@ -55,6 +68,7 @@ export const reconcileElements = ({
       oldParentVNode: oldVNode,
       commitQueue,
       oldDom: null,
+      isSvg,
     });
   }
   return dom;

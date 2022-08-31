@@ -144,6 +144,7 @@ export namespace PDJSX {
       | BlockTuneAttributes
       | null;
     _listeners?: { [key: string]: (e: Event) => void };
+    ownerSVGElement?: SVGElement | null;
     data?: string | number;
   }
 
