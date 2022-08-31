@@ -321,7 +321,7 @@ git clone https://github.com/cam-inc/pde.js.git && cd pde.js && npm run prefligh
 
 ## License
 
-MIT License
+Apache-2.0 License
 
 ## Contact
 
