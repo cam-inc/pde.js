@@ -21,7 +21,7 @@ const WithHooks = () => {
 
   useEffect(() => {
     // FIXME: In this useEffect(called useMount), it rewrite state each state updater executed.
-    // setText('Pong')
+    setText('Pong');
     console.log('mounted');
   }, []);
 

@@ -306,10 +306,25 @@ export const useState = <S = undefined>(initialState: S) => {
 
 export const useEffect = (callback: Effect, args: any[]) => {
   const state = getHookState(currentIndex++, 3);
-  if (!options.skipEffects && state && argsChanged(state.args, args)) {
-    state.value = callback;
-    state.pendingArgs = args;
+  /**
+   * NOTE: We suppress to call useEffect(cb, []) twice through calledUseMount.
+   */
+  let calledUseMount = !!state?.value;
 
-    currentComponent?.renderCallbacks.push(state as Component);
+  if (!options.skipEffects && state && argsChanged(state.args, args)) {
+    if (args.length > 0) {
+      state.value = callback;
+      state.pendingArgs = args;
+
+      currentComponent?.renderCallbacks.push(state as Component);
+    } else {
+      if (!calledUseMount) {
+        state.value = callback;
+        state.pendingArgs = args;
+
+        currentComponent?.renderCallbacks.push(state as Component);
+        calledUseMount = true;
+      }
+    }
   }
 };
