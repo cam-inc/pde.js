@@ -6,7 +6,14 @@ import EditorJS, {
   InlineToolConstructorOptions,
   ToolConfig,
 } from '@editorjs/editorjs';
-import { h, useState, useWatch, createPlugin, useMount } from '../../../../src';
+import {
+  h,
+  useState,
+  useWatch,
+  createPlugin,
+  useMount,
+  useConstruct,
+} from '../../../../src';
 import type { PDJSX } from '../../../../src/';
 
 const WithHooks = () => {
@@ -30,14 +37,11 @@ const WithHooks = () => {
     console.log('[useWatch] value changed!: ', value);
   }, [value]);
 
-  useWatch(() => {
-    console.log('[useWatch] api changed!: ', api);
-  }, [api]);
-
-  const initializer = ({ api, config }: InlineToolConstructorOptions) => {
-    setApi(api);
-    setConfig(config);
-  };
+  const params = useConstruct<InlineToolConstructorOptions>();
+  if (params != null) {
+    setApi(params.api);
+    setConfig(params.config);
+  }
 
   const save = (blockContent: HTMLElement) => {
     return {
@@ -64,7 +68,6 @@ const WithHooks = () => {
 
   return (
     <tool
-      initializer={initializer}
       save={save}
       static_get_toolbox={{
         title: 'SampleWithHooks',
@@ -110,15 +113,14 @@ const WithHooks = () => {
 
 const WithContentEdiable = () => {
   const [data, setData] = useState<BlockToolData | null>(null);
-  const initializer = ({ data }: BlockToolConstructorOptions) => {
-    setData(data);
-  };
-  useWatch(() => {
-    console.log('[useWatch data] ', data?.value);
-  }, [data]);
+
+  const params = useConstruct<BlockToolConstructorOptions>();
+  if (params != null) {
+    setData(params.data);
+  }
+
   return (
     <tool
-      initializer={initializer}
       static_get_toolbox={{ title: 'SampleWithContentEdiable', icon: '✍️' }}
       save={() => {}}
     >

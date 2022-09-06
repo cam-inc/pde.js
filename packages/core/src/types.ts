@@ -156,12 +156,9 @@ export namespace PDJSX {
 
   export interface BlockTune<P = {}> extends FunctionComponent<P> {}
 
-  type PluginInitializer<P = { [key: string]: any }> = (params: P) => void;
-
   export interface ToolAttributes<C = any> {
     children: ComponentChild | ComponentChild[];
     save: (blockContent: C) => void;
-    initializer?: PluginInitializer<BlockToolConstructorOptions>;
     validate?: (savedData: BlockToolData) => boolean;
     // TODO: JSX as props
     renderSettings?: {
@@ -194,7 +191,6 @@ export namespace PDJSX {
     surround: (range: Range) => void;
     checkState: (selection: { [key: string]: any }) => void;
     renderActions?: () => JSX.IntrinsicElements;
-    initializer?: PluginInitializer<InlineToolConstructorOptions>;
     clear?: () => void;
 
     // getter
@@ -207,15 +203,6 @@ export namespace PDJSX {
 
   export interface BlockTuneAttributes<C = any> {
     children: ComponentChild | ComponentChild[];
-    /**
-     * @see https://github.com/codex-team/editor.js/blob/6f36707f67e498ec0933144df2c72ba07ab1899d/types/block-tunes/block-tune.d.ts#L54...L59
-     */
-    initializer?: PluginInitializer<{
-      api: API;
-      config?: ToolConfig;
-      block: BlockAPI;
-      data: BlockTuneData;
-    }>;
     save?: () => { [key: string]: any };
     wrap?: (blockContent: C) => JSX.IntrinsicElements;
 

@@ -16,6 +16,8 @@ export type Options = {
   pluginName: string | null;
   pluginNameWhenRendering: string | null;
   calledUseMount: boolean;
+
+  constructorParams: any;
 };
 
 export const options = {} as Options;

@@ -72,14 +72,10 @@ export const createPluginClass = (
   if (pluginProps) {
     class PluginDeclarative {
       private params: any;
-      private initializer: NonNullable<VNode['pluginProps']>['initializer'];
 
       public render: () => HTMLElement;
 
       constructor(params: any) {
-        if (pluginProps?.initializer) {
-          this.initializer = pluginProps.initializer;
-        }
         this.params = params;
         this.render = render;
       }

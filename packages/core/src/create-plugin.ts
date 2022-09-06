@@ -44,10 +44,7 @@ export const createPlugin = (
 
       // NOTE: Call constructor after generating dom.
       // @ts-expect-error
-      if (this.initializer) {
-        // @ts-expect-error
-        this.initializer(this.params);
-      }
+      options.constructorParams = this.params;
 
       return wrapper;
     } else {

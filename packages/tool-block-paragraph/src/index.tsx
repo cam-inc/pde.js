@@ -1,5 +1,5 @@
 /* @jsx h */
-import { createPlugin, h, useEffect, useState } from '@pdejs/core';
+import { createPlugin, h, useWatch, useState, useConstruct } from '@pdejs/core';
 
 import type {
   API,
@@ -30,8 +30,8 @@ const Paragraph = () => {
   const [blockApi, setBlockApi] = useState<BlockAPI | null>(null);
   const [readOnly, setReadOnly] = useState(false);
 
-  useEffect(() => {
-    console.log('[useEffect] data ', data);
+  useWatch(() => {
+    console.log('[useWatch] data ', data);
     if (data != null) {
       setValue(data.value);
     }
@@ -44,19 +44,14 @@ const Paragraph = () => {
     icon: '<svg width="17" height="15" viewBox="0 0 336 276" xmlns="http://www.w3.org/2000/svg"><path d="M291 150V79c0-19-15-34-34-34H79c-19 0-34 15-34 34v42l67-44 81 72 56-29 42 30zm0 52l-43-30-56 30-81-67-66 39v23c0 19 15 34 34 34h178c17 0 31-13 34-29zM79 0h178c44 0 79 35 79 79v118c0 44-35 79-79 79H79c-44 0-79-35-79-79V79C0 35 35 0 79 0z"/></svg>',
   };
 
-  const initializer = ({
-    api,
-    data,
-    config,
-    block,
-    readOnly,
-  }: BlockToolConstructorOptions) => {
-    setApi(api);
-    setData(data);
-    setConfig(config);
-    setBlockApi(block ?? null);
-    setReadOnly(!!readOnly);
-  };
+  const params = useConstruct<BlockToolConstructorOptions>();
+  if (params != null) {
+    setApi(params.api);
+    setData(params.data);
+    setConfig(params.config);
+    setBlockApi(params.block ?? null);
+    setReadOnly(!!params.readOnly);
+  }
 
   const save = (container: HTMLElement) => {
     return {
@@ -93,7 +88,6 @@ const Paragraph = () => {
 
   return (
     <tool
-      initializer={initializer}
       static_get_toolbox={toolbox}
       save={save}
       validate={validate}

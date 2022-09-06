@@ -341,4 +341,6 @@ export const useMount = (callback: Effect) => {
   }
 };
 
-export const useConstruct = () => {};
+export const useConstruct = <P = any>() => {
+  return options.constructorParams as P | undefined;
+};

@@ -1,5 +1,5 @@
 /* @jsx h */
-import { createPlugin, h, useEffect, useState } from '@pdejs/core';
+import { createPlugin, h, useWatch, useState, useConstruct } from '@pdejs/core';
 import type {
   API,
   InlineTool,
@@ -16,9 +16,10 @@ const Marker = () => {
   const [api, setApi] = useState<API | null>(null);
   const [marked, setMarked] = useState(false);
 
-  const initializer = ({ api }: InlineToolConstructorOptions) => {
-    setApi(api);
-  };
+  const params = useConstruct<InlineToolConstructorOptions>();
+  if (params != null) {
+    setApi(params.api);
+  }
 
   const unwrap = (range: Range) => {
     const mark = api?.selection.findParentTag('mark');
@@ -48,17 +49,16 @@ const Marker = () => {
     setMarked(!!mark);
   };
 
-  useEffect(() => {
+  useWatch(() => {
     console.log('api: ', api);
   }, [api]);
 
-  useEffect(() => {
+  useWatch(() => {
     console.log('marked ', marked);
   }, [marked]);
 
   return (
     <inlineTool
-      initializer={initializer}
       static_get_isInline={true}
       surround={surround}
       checkState={checkState}
