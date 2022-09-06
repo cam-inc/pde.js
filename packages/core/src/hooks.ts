@@ -304,10 +304,6 @@ export const useState = <S = undefined>(initialState: S) => {
 
 export const useWatch = (callback: Effect, args: any[]) => {
   const state = getHookState(currentIndex++, 3);
-  /**
-   * NOTE: We suppress to call useEffect(cb, []) twice through calledUseMount.
-   */
-  options.calledUseMount = !!state?.value;
 
   if (!options.skipEffects && state && argsChanged(state.args, args)) {
     if (args.length > 0) {

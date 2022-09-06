@@ -22,7 +22,6 @@ export const createPlugin = (
     const parentDom = { children: initialVNode } as unknown as PDJSX.Element;
 
     initialVNode.pluginName = id;
-    options.pluginNameWhenRendering = id;
 
     // NOTE: It is need to create DOM in this render function.
     // So, we call the reconcle function in this.

@@ -14,8 +14,6 @@ export type Options = {
   event?: (e: Event) => any;
 
   pluginName: string | null;
-  pluginNameWhenRendering: string | null;
-  calledUseMount: boolean;
 
   constructorParams: any;
 };
