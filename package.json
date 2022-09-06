@@ -17,19 +17,19 @@
   },
   "workspaces": ["apps/*", "examples/*", "packages/*"],
   "devDependencies": {
-    "@commitlint/cli": "^17.0.3",
-    "@commitlint/config-conventional": "^17.0.3",
+    "@commitlint/cli": "^17.1.2",
+    "@commitlint/config-conventional": "^17.1.0",
     "@editorjs/editorjs": "^2.25.0",
-    "@secretlint/secretlint-rule-preset-recommend": "^5.2.3",
+    "@secretlint/secretlint-rule-preset-recommend": "^5.2.4",
     "commitlint-plugin-workspace-scopes": "^1.1.0",
     "conventional-changelog-cli": "^2.2.2",
     "husky": "^8.0.1",
     "license-checker-rseidelsohn": "^3.1.0",
     "npm-run-all": "^4.1.5",
     "rimraf": "^3.0.2",
-    "secretlint": "^5.2.3",
-    "turbo": "^1.4.2",
-    "typescript": "^4.7.4",
-    "vite": "^3.0.8"
+    "secretlint": "^5.2.4",
+    "turbo": "^1.4.5",
+    "typescript": "^4.8.2",
+    "vite": "^3.1.0"
   }
 }

@@ -11,7 +11,6 @@ import type { PDJSX } from '../../../../src/';
 
 const WithHooks = () => {
   console.log('render or re-render');
-
   const [show, setShow] = useState(false);
   const [value, setValue] = useState('');
   const [text, setText] = useState('Ping');
@@ -22,7 +21,6 @@ const WithHooks = () => {
   useEffect(() => {
     // FIXME: In this useEffect(called useMount), it rewrite state each state updater executed.
     setText('Pong');
-    console.log('mounted');
   }, []);
 
   useEffect(() => {

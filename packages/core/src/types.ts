@@ -134,6 +134,8 @@ export namespace PDJSX {
       ) => Pick<S, K> | Partial<S> | null,
       callback?: () => void
     ): void {}
+
+    forceUpdate(callback?: () => void): void {}
   }
 
   export interface Element extends HTMLElement {

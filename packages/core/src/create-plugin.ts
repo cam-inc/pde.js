@@ -3,6 +3,7 @@ import { createElement, Fragment } from './create-element';
 import { Component as ComponentType, PDJSX, VNode } from './types';
 import { commitRoot, reconcile } from './reconciler';
 import { createPluginClass } from './helpers';
+import { options } from './options';
 
 // NOTE: Removed `replaceNode` from params because of using this directory as API
 export const createPlugin = (
@@ -21,6 +22,7 @@ export const createPlugin = (
     const parentDom = { children: initialVNode } as unknown as PDJSX.Element;
 
     initialVNode.pluginName = id;
+    options.pluginNameWhenRendering = id;
 
     // NOTE: It is need to create DOM in this render function.
     // So, we call the reconcle function in this.

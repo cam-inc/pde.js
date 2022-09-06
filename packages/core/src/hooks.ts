@@ -160,6 +160,7 @@ options.render = (vNode) => {
   currentIndex = 0;
 
   const siblingPluginName = getSiblingPluginName();
+  console.log('[internal] options pluginName', options?.pluginName);
   // NOTE: siblingPluginName has value after batching state updater.
   // if (siblingPluginName != null) {
   options.pluginName = siblingPluginName ?? null;
@@ -203,7 +204,7 @@ options.diffed = (vNode) => {
       if (hook.pendingArgs) {
         hook.args = hook.pendingArgs;
       }
-      if (hook.pendingValue !== []) {
+      if (hook.pendingValue !== undefined && hook.pendingValue.length > 0) {
         hook.value = hook.pendingValue;
       }
       hook.pendingArgs = null;
@@ -309,7 +310,7 @@ export const useEffect = (callback: Effect, args: any[]) => {
   /**
    * NOTE: We suppress to call useEffect(cb, []) twice through calledUseMount.
    */
-  let calledUseMount = !!state?.value;
+  options.calledUseMount = !!state?.value;
 
   if (!options.skipEffects && state && argsChanged(state.args, args)) {
     if (args.length > 0) {
@@ -318,12 +319,12 @@ export const useEffect = (callback: Effect, args: any[]) => {
 
       currentComponent?.renderCallbacks.push(state as Component);
     } else {
-      if (!calledUseMount) {
+      if (!options.calledUseMount) {
         state.value = callback;
         state.pendingArgs = args;
 
         currentComponent?.renderCallbacks.push(state as Component);
-        calledUseMount = true;
+        options.calledUseMount = true;
       }
     }
   }

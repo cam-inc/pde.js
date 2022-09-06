@@ -17,6 +17,7 @@ export class Component implements PDJSX.Component {
   public renderCallbacks: ComponentType['renderCallbacks'] = [];
   public dirty: boolean = false;
   public pluginName: string | null = null;
+  public force: boolean = false;
 
   constructor(props: VNode['props'], context: ComponentType['globalContext']) {
     this.props = props;
@@ -46,6 +47,16 @@ export class Component implements PDJSX.Component {
     }
 
     if (this.vNode) {
+      if (callback) {
+        this.renderCallbacks.push(callback as unknown as ComponentType);
+      }
+      enqueueRender(this as unknown as ComponentType);
+    }
+  }
+
+  public forceUpdate(callback: SetStateCallback) {
+    if (this.vNode) {
+      this.force = true;
       if (callback) {
         this.renderCallbacks.push(callback as unknown as ComponentType);
       }
@@ -83,13 +94,8 @@ const renderComponent = (component: ComponentType) => {
 
     if (options.pluginName !== null) {
       const target = document.getElementById(options.pluginName);
-      const child = target?.firstElementChild;
       if (target && newDom) {
-        if (child != null) {
-          target.replaceChild(newDom, child);
-        } else {
-          target.appendChild(newDom);
-        }
+        target.appendChild(newDom);
       }
     }
 
@@ -134,7 +140,7 @@ const process = () => {
   while ((process.rerenderCount = renderQueue.length)) {
     queue = renderQueue.sort((a, b) => {
       if (a.vNode && b.vNode) {
-        return a.vNode?.depth - b.vNode?.depth;
+        return a.vNode.depth - b.vNode.depth;
       } else {
         return 0;
       }
