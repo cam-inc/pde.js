@@ -305,7 +305,7 @@ export const useState = <S = undefined>(initialState: S) => {
   return useReducer<S>(invokeOrReturn, initialState) as [S, StateUpdater<S>];
 };
 
-export const useEffect = (callback: Effect, args: any[]) => {
+export const useWatch = (callback: Effect, args: any[]) => {
   const state = getHookState(currentIndex++, 3);
   /**
    * NOTE: We suppress to call useEffect(cb, []) twice through calledUseMount.
@@ -319,13 +319,26 @@ export const useEffect = (callback: Effect, args: any[]) => {
 
       currentComponent?.renderCallbacks.push(state as Component);
     } else {
-      if (!options.calledUseMount) {
-        state.value = callback;
-        state.pendingArgs = args;
-
-        currentComponent?.renderCallbacks.push(state as Component);
-        options.calledUseMount = true;
-      }
+      throw new Error(
+        'args should be array with at least one element. Use `useMount` instead.'
+      );
     }
   }
 };
+
+export const useMount = (callback: Effect) => {
+  const state = getHookState(currentIndex++, 4);
+  let called = !!state?.value;
+
+  if (state && !called) {
+    state.value = callback;
+    state.pendingArgs = [];
+
+    currentComponent?.renderCallbacks.push(state as Component);
+    currentComponent?.forceUpdate();
+
+    called = true;
+  }
+};
+
+export const useConstruct = () => {};

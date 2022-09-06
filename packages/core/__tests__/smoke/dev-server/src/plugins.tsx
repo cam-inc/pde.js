@@ -6,7 +6,7 @@ import EditorJS, {
   InlineToolConstructorOptions,
   ToolConfig,
 } from '@editorjs/editorjs';
-import { h, useState, useEffect, createPlugin } from '../../../../src';
+import { h, useState, useWatch, createPlugin, useMount } from '../../../../src';
 import type { PDJSX } from '../../../../src/';
 
 const WithHooks = () => {
@@ -18,21 +18,20 @@ const WithHooks = () => {
   const [api, setApi] = useState<API | null>(null);
   const [config, setConfig] = useState<ToolConfig | null>(null);
 
-  useEffect(() => {
-    // FIXME: In this useEffect(called useMount), it rewrite state each state updater executed.
+  useMount(() => {
     setText('Pong');
-  }, []);
+  });
 
-  useEffect(() => {
-    console.log('[useEffect] show changed!: ', show);
+  useWatch(() => {
+    console.log('[useWatch] show changed!: ', show);
   }, [show]);
 
-  useEffect(() => {
-    console.log('[useEffect] value changed!: ', value);
+  useWatch(() => {
+    console.log('[useWatch] value changed!: ', value);
   }, [value]);
 
-  useEffect(() => {
-    console.log('[useEffect] api changed!: ', api);
+  useWatch(() => {
+    console.log('[useWatch] api changed!: ', api);
   }, [api]);
 
   const initializer = ({ api, config }: InlineToolConstructorOptions) => {
@@ -114,8 +113,8 @@ const WithContentEdiable = () => {
   const initializer = ({ data }: BlockToolConstructorOptions) => {
     setData(data);
   };
-  useEffect(() => {
-    console.log('[useEffect data] ', data?.value);
+  useWatch(() => {
+    console.log('[useWatch data] ', data?.value);
   }, [data]);
   return (
     <tool
