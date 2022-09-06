@@ -72,8 +72,7 @@ import {
   createPlugin,
   useMount,
   useConstruct,
-} from '../../../../src';
-import type { PDJSX } from '../../../../src/';
+} from '@pdejs/core';
 
 const WithHooks = () => {
   console.log('render or re-render');
@@ -215,12 +214,8 @@ const CustomTool = () => {
       text: blockContent.innerText,
     };
   };
-  const initializer: PDJSX.ToolAttributes['initializer'] = (params) => {
-    console.log('[CustomTool] ', params);
-  };
   return (
     <tool
-      initializer={initializer}
       save={handleSave}
       static_get_toolbox={{ title: 'CustomTool', icon: '<span>🔮</span>' }}
     >
@@ -237,12 +232,8 @@ const CustomTool = () => {
 };
 
 const CustomInlineTool = () => {
-  const initializer: PDJSX.InlineToolAttributes['initializer'] = (params) => {
-    console.log('[CustomInlineTool] ', params);
-  };
   return (
     <inlineTool
-      initializer={initializer}
       surround={() => {}}
       checkState={() => {}}
       static_get_isInline={true}
@@ -253,11 +244,8 @@ const CustomInlineTool = () => {
 };
 
 const CustomBlockTune = () => {
-  const initializer: PDJSX.BlockTuneAttributes['initializer'] = (params) => {
-    console.log('[CustomBlockTune] ', params);
-  };
   return (
-    <blockTune initializer={initializer} static_get_isTune={true}>
+    <blockTune static_get_isTune={true}>
       <span>🎸</span>
     </blockTune>
   );
