@@ -160,11 +160,8 @@ options.render = (vNode) => {
   currentIndex = 0;
 
   const siblingPluginName = getSiblingPluginName();
-  console.log('[internal] options pluginName', options?.pluginName);
   // NOTE: siblingPluginName has value after batching state updater.
-  // if (siblingPluginName != null) {
   options.pluginName = siblingPluginName ?? null;
-  // }
 
   const hooks = currentComponent?.hooks ?? null;
   if (hooks !== null) {
