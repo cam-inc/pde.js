@@ -17,6 +17,7 @@ type ReconcileParams = {
   newVNode: VNode;
   oldVNode: VNode | null;
   commitQueue: ComponentType[];
+  isSvg: boolean;
 };
 
 type RenderParams = {
@@ -47,6 +48,7 @@ export const reconcile = ({
   newVNode,
   oldVNode,
   commitQueue,
+  isSvg,
 }: ReconcileParams) => {
   // NOTE: This mutable variable will include a lot of side effects.
   // So, we named it with `dirty` prefix.
@@ -134,6 +136,7 @@ export const reconcile = ({
       oldParentVNode: oldVNode,
       commitQueue,
       oldDom,
+      isSvg,
     });
 
     if (dirtyComponent.renderCallbacks.length) {
@@ -145,6 +148,7 @@ export const reconcile = ({
       newVNode,
       oldVNode,
       commitQueue,
+      isSvg,
     }) as PDJSX.Element;
 
     if (options.diffed) {

@@ -11,8 +11,11 @@ export type Options = {
   requestAnimationFrame: typeof requestAnimationFrame;
   debounceRendering?: (cb: () => void) => void;
   skipEffects?: boolean;
+  event?: (e: Event) => any;
 
   pluginName: string | null;
+
+  constructorParams: any;
 };
 
 export const options = {} as Options;

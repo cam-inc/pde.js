@@ -14,6 +14,7 @@ export type ReconcileChildrenParams = {
   oldParentVNode: VNode | null;
   commitQueue: ComponentType[];
   oldDom: PDJSX.Element | null;
+  isSvg: boolean;
 };
 
 export type PlaceChildParams = {
@@ -114,6 +115,7 @@ export const reconcileChildren = ({
   oldParentVNode,
   commitQueue,
   oldDom,
+  isSvg,
 }: ReconcileChildrenParams) => {
   let oldVNode: VNode | null;
   let childVNode: VNode | ComponentChild | ComponentChild[];
@@ -223,6 +225,7 @@ export const reconcileChildren = ({
       oldVNode,
       commitQueue,
       oldDom: filteredOldDom,
+      isSvg,
     });
 
     if (newDom != null) {

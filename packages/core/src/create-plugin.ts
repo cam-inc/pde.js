@@ -3,6 +3,7 @@ import { createElement, Fragment } from './create-element';
 import { Component as ComponentType, PDJSX, VNode } from './types';
 import { commitRoot, reconcile } from './reconciler';
 import { createPluginClass } from './helpers';
+import { options } from './options';
 
 // NOTE: Removed `replaceNode` from params because of using this directory as API
 export const createPlugin = (
@@ -32,12 +33,18 @@ export const createPlugin = (
       oldVNode: null,
       commitQueue,
       oldDom: null,
+      isSvg: parentDom.ownerSVGElement !== undefined,
     });
 
     if (dom) {
       const wrapper = document.createElement('x-pd');
       wrapper.id = id;
       wrapper.appendChild(dom);
+
+      // NOTE: Call constructor after generating dom.
+      // @ts-expect-error
+      options.constructorParams = this.params;
+
       return wrapper;
     } else {
       throw new Error('The new dom is empty.');
@@ -55,10 +62,10 @@ export const createPlugin = (
       oldVNode: null,
       commitQueue: [],
       oldDom: null,
-    })?._pluginProps ?? null
+      isSvg: _parentDom.ownerSVGElement !== undefined,
+    })?._pluginProps ?? null,
+    render
   );
-
-  PluginDeclarative.prototype.render = render;
 
   commitRoot(commitQueue);
 

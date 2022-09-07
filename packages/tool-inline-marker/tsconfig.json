@@ -10,10 +10,7 @@
     "removeComments": true,
     "jsx": "react",
     "baseUrl": ".",
-    "outDir": "dist",
-    "paths": {
-      "react": ["./src/types.ts"]
-    }
+    "outDir": "dist"
   },
   "exclude": ["__tests__/**", "dist", "*.config.ts"],
   "$schema": "https://json.schemastore.org/tsconfig.json"

@@ -151,14 +151,17 @@ options.render = (vNode) => {
     oldBeforeRender(vNode);
   }
 
-  if (vNode.component) {
+  if (vNode.component && vNode.pluginName) {
     vNode.component.pluginName = vNode.pluginName;
+    options.pluginName = vNode.component.pluginName;
   }
 
   currentComponent = vNode.component;
   currentIndex = 0;
 
-  options.pluginName = getSiblingPluginName() ?? null;
+  const siblingPluginName = getSiblingPluginName();
+  // NOTE: siblingPluginName has value after batching state updater.
+  options.pluginName = siblingPluginName ?? null;
 
   const hooks = currentComponent?.hooks ?? null;
   if (hooks !== null) {
@@ -198,7 +201,7 @@ options.diffed = (vNode) => {
       if (hook.pendingArgs) {
         hook.args = hook.pendingArgs;
       }
-      if (hook.pendingValue !== []) {
+      if (hook.pendingValue !== undefined && hook.pendingValue.length > 0) {
         hook.value = hook.pendingValue;
       }
       hook.pendingArgs = null;
@@ -296,18 +299,41 @@ export const useReducer = <S>(
 
 export const useState = <S = undefined>(initialState: S) => {
   currentHook = 1;
-  return useReducer<S>(invokeOrReturn, initialState) as [
-    S | undefined,
-    StateUpdater<S | undefined>
-  ];
+  return useReducer<S>(invokeOrReturn, initialState) as [S, StateUpdater<S>];
 };
 
-export const useEffect = (callback: Effect, args: any[]) => {
+export const useWatch = (callback: Effect, args: any[]) => {
   const state = getHookState(currentIndex++, 3);
+
   if (!options.skipEffects && state && argsChanged(state.args, args)) {
+    if (args.length > 0) {
+      state.value = callback;
+      state.pendingArgs = args;
+
+      currentComponent?.renderCallbacks.push(state as Component);
+    } else {
+      throw new Error(
+        'args should be array with at least one element. Use `useMount` instead.'
+      );
+    }
+  }
+};
+
+export const useMount = (callback: Effect) => {
+  const state = getHookState(currentIndex++, 4);
+  let called = !!state?.value;
+
+  if (state && !called) {
     state.value = callback;
-    state.pendingArgs = args;
+    state.pendingArgs = [];
 
     currentComponent?.renderCallbacks.push(state as Component);
+    currentComponent?.forceUpdate();
+
+    called = true;
   }
+};
+
+export const useConstruct = <P = any>() => {
+  return options.constructorParams as P | undefined;
 };

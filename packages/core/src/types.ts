@@ -6,6 +6,7 @@ import {
   ToolConfig,
   BlockAPI,
   EditorConfig,
+  BlockToolData,
 } from '@editorjs/editorjs';
 import { BlockTuneData } from '@editorjs/editorjs/types/block-tunes/block-tune-data';
 
@@ -133,6 +134,8 @@ export namespace PDJSX {
       ) => Pick<S, K> | Partial<S> | null,
       callback?: () => void
     ): void {}
+
+    forceUpdate(callback?: () => void): void {}
   }
 
   export interface Element extends HTMLElement {
@@ -142,6 +145,8 @@ export namespace PDJSX {
       | InlineToolAttributes
       | BlockTuneAttributes
       | null;
+    _listeners?: { [key: string]: (e: Event) => void };
+    ownerSVGElement?: SVGElement | null;
     data?: string | number;
   }
 
@@ -151,15 +156,16 @@ export namespace PDJSX {
 
   export interface BlockTune<P = {}> extends FunctionComponent<P> {}
 
-  type PluginInitializer<P = { [key: string]: any }> = (params: P) => void;
-
   export interface ToolAttributes<C = any> {
     children: ComponentChild | ComponentChild[];
     save: (blockContent: C) => void;
-    initializer?: PluginInitializer<BlockToolConstructorOptions>;
-    validate?: boolean;
+    validate?: (savedData: BlockToolData) => boolean;
     // TODO: JSX as props
-    renderSettings?: { name: string; icon: string }[];
+    renderSettings?: {
+      wrapper: string;
+      button: string;
+      icons: { name: string; icon: string }[];
+    };
     // renderSettings?: { name: string; icon: JSX.IntrinsicElements }[];
     destory?: () => void;
     onPaste?: (event: PasteEvent) => void;
@@ -182,10 +188,9 @@ export namespace PDJSX {
 
   export interface InlineToolAttributes {
     children: ComponentChild | ComponentChild[];
-    surround: (range: { [key: string]: any }) => void;
+    surround: (range: Range) => void;
     checkState: (selection: { [key: string]: any }) => void;
     renderActions?: () => JSX.IntrinsicElements;
-    initializer?: PluginInitializer<InlineToolConstructorOptions>;
     clear?: () => void;
 
     // getter
@@ -198,15 +203,6 @@ export namespace PDJSX {
 
   export interface BlockTuneAttributes<C = any> {
     children: ComponentChild | ComponentChild[];
-    /**
-     * @see https://github.com/codex-team/editor.js/blob/6f36707f67e498ec0933144df2c72ba07ab1899d/types/block-tunes/block-tune.d.ts#L54...L59
-     */
-    initializer?: PluginInitializer<{
-      api: API;
-      config?: ToolConfig;
-      block: BlockAPI;
-      data: BlockTuneData;
-    }>;
     save?: () => { [key: string]: any };
     wrap?: (blockContent: C) => JSX.IntrinsicElements;
 
@@ -236,7 +232,7 @@ declare global {
     export interface Element<P = any> {
       type: ComponentType<P> | string;
       props: P & { children: VNode | string | number | null };
-      key: Key;
+      key: Key | null;
       ref?: Ref<any> | null;
     }
   }

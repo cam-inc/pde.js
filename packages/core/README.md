@@ -23,138 +23,15 @@ A Package for constructing declarative Editor.js plugins.
 
 ## Getting started
 
-### Install
+### Install (With TypeScript)
+
+_We strongly recommend to use with TypeScript._
 
 ```shell
 npm i @editorjs/editorjs @pdejs/core
 ```
 
-### With JavaScript(babel)
-
-Install dependencies related with babel.
-
-```shell
-npm i --save-dev @babel/core @babel/cli @babel/plugin-transform-react-jsx @babel/preset-env
-```
-
-Add `.babelrc` like shown below.
-
-```json
-{
-  "presets": [["@babel/preset-env"]],
-  "plugins": ["@babel/plugin-transform-react-jsx"]
-}
-```
-
-Sample code
-
-```jsx
-/* @jsx h */
-import { h, createPlugin } from '@pdejs/core';
-import EditorJS from '@editorjs/editorjs';
-
-const CustomTool = () => {
-  const handleClick = () => {
-    console.log('clicked');
-  };
-  const handleSave = (blockContent) => console.log(blockContent.value);
-  return (
-    <tool
-      save={handleSave}
-      validate={undefined}
-      renderSettings={undefined}
-      destory={undefined}
-      onPaste={undefined}
-      merge={undefined}
-      static_get_pasteConfig={undefined}
-      static_get_sanitize={undefined}
-      static_get_shortcut={undefined}
-      static_get_conversionConfig={undefined}
-      static_get_enableLineBreaks={undefined}
-      static_get_isReadOnlySupported={undefined}
-      static_get_toolbox={{ title: 'CustomTool', icon: '<span>🔮</span>' }}
-    >
-      <div>
-        <button
-          style={{ border: 'none', cursor: 'pointer' }}
-          onClick={handleClick}
-        >
-          button
-        </button>
-      </div>
-    </tool>
-  );
-};
-
-const CustomInlineTool = () => {
-  return (
-    <inlineTool
-      surround={() => {}}
-      checkState={() => {}}
-      renderActions={undefined}
-      clear={undefined}
-      static_get_isInline={true}
-      get_shortcut={undefined}
-      static_get_sanitize={undefined}
-      static_get_title={undefined}
-    >
-      <div className="inline-tool-container">
-        <span className="ce-inline-tool">📝</span>
-      </div>
-    </inlineTool>
-  );
-};
-
-const CustomBlockTune = () => {
-  return (
-    <blockTune
-      save={undefined}
-      wrap={undefined}
-      static_get_isTune={true}
-      static_prepare={undefined}
-      static_reset={undefined}
-    >
-      <div>
-        <span>BlockTune</span>
-        <div>
-          <span>nested</span>
-        </div>
-        <span />
-        <div>
-          <button>button</button> {/* inserted block */}
-          <button>button</button> {/* inserted block */}
-          <button>button</button> {/* inserted block */}
-          <button>button</button> {/* inserted block */}
-          <button>button</button> {/* inserted block */}
-        </div>
-      </div>
-    </blockTune>
-  );
-};
-
-const customTool = createPlugin(<CustomTool />);
-const customInlineTool = createPlugin(<CustomInlineTool />);
-const customBlockTune = createPlugin(<CustomBlockTune />);
-
-const e = document.createElement('div');
-e.id = 'editorjs';
-document.body.appendChild(e);
-
-new EditorJS({
-  holder: 'editorjs',
-  tools: {
-    customTool,
-    CustomInlineTool: { class: customInlineTool },
-    CustomBlockTune: { class: customBlockTune },
-  },
-});
-```
-
-[Example]()
-
-### With TypeScript
-
-Strongly recommended to use with TypeScript
+Install typescript.
 
 ```shell
 npm i --save-dev typescript
@@ -177,105 +54,297 @@ Add `tsconfig.json` like shown below.
 }
 ```
 
-Sample code
+### Sample (With TypeScript)
 
 ```tsx
 /* @jsx h */
-import { h, createPlugin } from '@pdejs/core';
-import type { PDJSX } from '@pdejs/core';
-import EditorJS from '@editorjs/editorjs';
+import EditorJS, {
+  API,
+  BlockToolConstructorOptions,
+  BlockToolData,
+  InlineToolConstructorOptions,
+  ToolConfig,
+} from '@editorjs/editorjs';
+import {
+  h,
+  useState,
+  useWatch,
+  createPlugin,
+  useMount,
+  useConstruct,
+} from '@pdejs/core';
 
-const CustomTool: PDJSX.Tool = () => {
-  const handleClick = () => {
-    console.log('clicked');
+const WithHooks = () => {
+  console.log('render or re-render');
+  const [show, setShow] = useState(false);
+  const [value, setValue] = useState('');
+  const [text, setText] = useState('Ping');
+
+  const [api, setApi] = useState<API | null>(null);
+  const [config, setConfig] = useState<ToolConfig | null>(null);
+
+  useMount(() => {
+    setText('Pong');
+  });
+
+  useWatch(() => {
+    console.log('[useWatch] show changed!: ', show);
+  }, [show]);
+
+  useWatch(() => {
+    console.log('[useWatch] value changed!: ', value);
+  }, [value]);
+
+  const params = useConstruct<InlineToolConstructorOptions>();
+  if (params != null) {
+    setApi(params.api);
+    setConfig(params.config);
+  }
+
+  const save = (blockContent: HTMLElement) => {
+    return {
+      text: blockContent.innerText,
+    };
   };
-  const handleSave: PDJSX.ToolAttributes<{ value: string }>['save'] = (
-    blockContent
-  ) => console.log(blockContent.value);
+
+  const handleClick = () => {
+    setShow((prevState) => !prevState);
+  };
+
+  const handleChange = (e: Event) => {
+    if (e.target instanceof HTMLInputElement) {
+      setValue(e.target.value);
+    }
+  };
+
+  const handleSubmit = (e: Event) => {
+    setText(value);
+    console.log('[handleSubmit] api:  ', api);
+    console.log('[handleSubmit] config:  ', config);
+    e.preventDefault();
+  };
+
   return (
     <tool
-      save={handleSave}
-      validate={undefined}
-      renderSettings={undefined}
-      destory={undefined}
-      onPaste={undefined}
-      merge={undefined}
-      static_get_pasteConfig={undefined}
-      static_get_sanitize={undefined}
-      static_get_shortcut={undefined}
-      static_get_conversionConfig={undefined}
-      static_get_enableLineBreaks={undefined}
-      static_get_isReadOnlySupported={undefined}
-      static_get_toolbox={{ title: 'CustomTool', icon: '<span>🔮</span>' }}
+      save={save}
+      static_get_toolbox={{
+        title: 'SampleWithHooks',
+        icon: `<span>🧪</span>`,
+      }}
     >
       <div>
-        <button onClick={handleClick}>button</button>
+        <span style={{ cursor: 'pointer' }} onClick={handleClick}>
+          {text}
+          {show && <span>'clicked!'</span>}
+        </span>
+        <div
+          style={{
+            width: '128px',
+            height: '64px',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            background: 'gray',
+            color: 'white',
+          }}
+        >
+          <form
+            style={{
+              width: '100%',
+              padding: '8px',
+            }}
+            onSubmit={handleSubmit}
+          >
+            <input
+              style={{ width: '100%' }}
+              onChange={handleChange}
+              value={value}
+            />
+            <input type="submit" value="Submit" />
+          </form>
+        </div>
+        {api && <pre>{api.styles.inlineToolButton}</pre>}
       </div>
     </tool>
   );
 };
 
-const CustomInlineTool: PDJSX.InlineTool = () => {
+const WithContentEdiable = () => {
+  const [data, setData] = useState<BlockToolData | null>(null);
+
+  const params = useConstruct<BlockToolConstructorOptions>();
+  if (params != null) {
+    setData(params.data);
+  }
+
+  return (
+    <tool
+      static_get_toolbox={{ title: 'SampleWithContentEdiable', icon: '✍️' }}
+      save={() => {}}
+    >
+      <div contentEditable={true}>default value: {data?.value}</div>
+    </tool>
+  );
+};
+
+const WithSvg = () => {
+  const surround = (range: Range) => {};
+  const checkState = () => {};
   return (
     <inlineTool
-      surround={() => {}}
-      checkState={() => {}}
-      renderActions={undefined}
-      clear={undefined}
       static_get_isInline={true}
-      get_shortcut={undefined}
-      static_get_sanitize={undefined}
-      static_get_title={undefined}
+      surround={surround}
+      checkState={checkState}
     >
-      <div>
-        <span>InlineTool</span>
-      </div>
+      <button class="ce-inline-tool">
+        <svg width="20" height="18">
+          <path d="M10.458 12.04l2.919 1.686-.781 1.417-.984-.03-.974 1.687H8.674l1.49-2.583-.508-.775.802-1.401zm.546-.952l3.624-6.327a1.597 1.597 0 0 1 2.182-.59 1.632 1.632 0 0 1 .615 2.201l-3.519 6.391-2.902-1.675zm-7.73 3.467h3.465a1.123 1.123 0 1 1 0 2.247H3.273a1.123 1.123 0 1 1 0-2.247z" />
+        </svg>
+      </button>
     </inlineTool>
   );
 };
 
-const CustomBlockTune: PDJSX.BlockTune = () => {
+const CustomTool = () => {
+  const handleClick = () => {
+    console.log('clicked');
+  };
+  const handleSave = (blockContent: HTMLElement) => {
+    return {
+      text: blockContent.innerText,
+    };
+  };
   return (
-    <blockTune
-      save={undefined}
-      wrap={undefined}
-      static_get_isTune={true}
-      static_prepare={undefined}
-      static_reset={undefined}
+    <tool
+      save={handleSave}
+      static_get_toolbox={{ title: 'CustomTool', icon: '<span>🔮</span>' }}
     >
       <div>
-        <span>BlockTune</span>
-        <div>
-          <span>nested</span>
-        </div>
-        <span />
-        <div>
-          <button>button</button>
-        </div>
+        <button
+          style={{ border: 'none', cursor: 'pointer' }}
+          onClick={handleClick}
+        >
+          button
+        </button>
       </div>
+    </tool>
+  );
+};
+
+const CustomInlineTool = () => {
+  return (
+    <inlineTool
+      surround={() => {}}
+      checkState={() => {}}
+      static_get_isInline={true}
+    >
+      <button class="ce-inline-tool">📝</button>
+    </inlineTool>
+  );
+};
+
+const CustomBlockTune = () => {
+  return (
+    <blockTune static_get_isTune={true}>
+      <span>🎸</span>
     </blockTune>
   );
 };
 
-const customTool = createPlugin(<CustomTool />, null);
-const customInlineTool = createPlugin(<CustomInlineTool />, null);
-const customBlockTune = createPlugin(<CustomBlockTune />, null);
+const containerElm = document.querySelector<HTMLDivElement>('#container');
+const saveElm = document.querySelector<HTMLButtonElement>('#save');
+const outputElm = document.querySelector<HTMLPreElement>('#output');
 
-const e = document.createElement('div');
-e.id = 'editorjs';
-document.body.appendChild(e);
+if (!containerElm) {
+  throw new Error('Could not find the element#container');
+}
 
-new EditorJS({
-  holderId: 'editorjs',
+if (!outputElm) {
+  throw new Error('Cloud not find the element#output');
+}
+
+const editor = new EditorJS({
+  holder: containerElm,
   tools: {
-    customTool,
-    CustomInlineTool: { class: customInlineTool },
-    CustomBlockTune: { class: customBlockTune },
+    withHooks: {
+      class: createPlugin(<WithHooks />),
+    },
+    withContentEditable: {
+      class: createPlugin(<WithContentEdiable />),
+    },
+    withSvg: {
+      class: createPlugin(<WithSvg />),
+    },
+    customTool: {
+      class: createPlugin(<CustomTool />),
+    },
+    customInlineTool: {
+      class: createPlugin(<CustomInlineTool />),
+      inlineToolbar: true,
+    },
+    customBlockTune: {
+      class: createPlugin(<CustomBlockTune />),
+    },
   },
+  data: {
+    blocks: [
+      {
+        type: 'withContentEditable',
+        data: {
+          value: 'initial paragraph 01',
+        },
+      },
+      {
+        type: 'withContentEditable',
+        data: {
+          value: 'initial paragraph 02',
+        },
+      },
+    ],
+  },
+  tunes: ['customBlockTune'],
+  onReady: () => {
+    console.log('[EDITORJS] Editor.js is ready to work!');
+  },
+  onChange: (_, event) => {
+    console.log("[EDITORJS] Now I know that Editor's content changed!", event);
+  },
+  autofocus: true,
+  placeholder: "Let's write an awesome story!",
+});
+
+saveElm?.addEventListener('click', () => {
+  editor
+    .save()
+    .then((outputData) => {
+      outputElm.innerText = JSON.stringify(outputData);
+    })
+    .catch((error) => {
+      outputElm.innerText = JSON.stringify(error);
+    });
 });
 ```
 
-[Example]()
+### Install (With JavaScript)
+
+```shell
+npm i @editorjs/editorjs @pdejs/core
+```
+
+Install dependencies related with babel.
+
+```shell
+npm i --save-dev @babel/core @babel/cli @babel/plugin-transform-react-jsx @babel/preset-env
+```
+
+Add `.babelrc` like shown below.
+
+```json
+{
+  "presets": [["@babel/preset-env"]],
+  "plugins": ["@babel/plugin-transform-react-jsx"]
+}
+```
 
 ### N.B.
 
@@ -307,7 +376,6 @@ If you do not want to use `@jsx h`, you can use @pdejs/core by modifying `@babel
   - [x] Prototyping(Add a simple parser)
   - [x] [Styles API support](https://editorjs.io/styles)
   - [x] [Access params of constructor as props](https://editorjs.io/tools-api#class-constructor)
-  - [ ] [JSX as props](https://github.com/cam-inc/pde.js/core/blob/2152be5020b83c75ac8c0d456a07b2ca5fc260fc/packages/core/src/types.ts#L64)
 - [x] Add unit & integration testing
 - [x] Add implements of diff or reconcile
 - [x] Add functions for transforming JSX nodes to plugin class syntax
@@ -322,8 +390,6 @@ git clone https://github.com/cam-inc/pde.js.git && cd pde.js && npm run prefligh
 ## License
 
 Apache-2.0 License
-
-## Contact
 
 ## Inspired
 

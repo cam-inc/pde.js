@@ -17,6 +17,7 @@ export class Component implements PDJSX.Component {
   public renderCallbacks: ComponentType['renderCallbacks'] = [];
   public dirty: boolean = false;
   public pluginName: string | null = null;
+  public force: boolean = false;
 
   constructor(props: VNode['props'], context: ComponentType['globalContext']) {
     this.props = props;
@@ -53,6 +54,16 @@ export class Component implements PDJSX.Component {
     }
   }
 
+  public forceUpdate(callback: SetStateCallback) {
+    if (this.vNode) {
+      this.force = true;
+      if (callback) {
+        this.renderCallbacks.push(callback as unknown as ComponentType);
+      }
+      enqueueRender(this as unknown as ComponentType);
+    }
+  }
+
   public render(props: VNode['props']) {
     return Fragment(props);
   }
@@ -77,6 +88,7 @@ const renderComponent = (component: ComponentType) => {
       oldVNode,
       commitQueue,
       oldDom,
+      isSvg: parentDom.ownerSVGElement !== undefined,
     });
     commitRoot(commitQueue, vNode);
 
@@ -128,7 +140,7 @@ const process = () => {
   while ((process.rerenderCount = renderQueue.length)) {
     queue = renderQueue.sort((a, b) => {
       if (a.vNode && b.vNode) {
-        return a.vNode?.depth - b.vNode?.depth;
+        return a.vNode.depth - b.vNode.depth;
       } else {
         return 0;
       }
