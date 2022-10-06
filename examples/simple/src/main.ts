@@ -1,7 +1,6 @@
 /* @jsx h */
-import ToolBlockParagraph from '@pdejs/tool-block-paragraph';
-import ToolInlineMarker from '@pdejs/tool-inline-marker';
-import Editor from '@editorjs/editorjs';
+import { Simple } from './plugin';
+import EditorJS from '@editorjs/editorjs';
 
 import './style.css';
 
@@ -12,32 +11,12 @@ if (!canvasElm) {
   throw new Error('Could not find the element#canvas');
 }
 
-const editor = new Editor({
+const editor = new EditorJS({
   holder: canvasElm,
   tools: {
-    myparagraph: {
-      class: ToolBlockParagraph,
-      inlineToolbar: true,
+    simple: {
+      class: Simple,
     },
-    marker: {
-      class: ToolInlineMarker,
-    },
-  },
-  data: {
-    blocks: [
-      {
-        type: 'myparagraph',
-        data: {
-          value: 'initial paragraph 01',
-        },
-      },
-      {
-        type: 'myparagraph',
-        data: {
-          value: 'initial paragraph 02',
-        },
-      },
-    ],
   },
   onReady: () => {
     console.log('Editor.js is ready to work!');
@@ -56,6 +35,6 @@ saveElm?.addEventListener('click', () => {
       console.log('saved: ', outputData);
     })
     .catch((error) => {
-      console.log('save failed: ', error);
+      console.log('save failded: ', error);
     });
 });

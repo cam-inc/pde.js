@@ -1,7 +1,7 @@
 {
-  "name": "@pdejs/simple",
+  "name": "@pdejs/playground",
   "version": "0.0.1",
-  "description": "A simple example for PDEJS",
+  "description": "A playground for PDEJS",
   "main": "index.js",
   "scripts": {
     "clear": "rimraf dist",
@@ -15,7 +15,7 @@
   "bugs": {
     "url": "https://github.com/cam-inc/pde.js/issues"
   },
-  "homepage": "https://github.com/cam-inc/pde.js/tree/main/examples/simple#readme",
+  "homepage": "https://github.com/cam-inc/pde.js/tree/main/examples/playground#readme",
   "contributers": [
     {
       "name": "Go Ohtani",
@@ -27,9 +27,10 @@
     }
   ],
   "dependencies": {
-    "@pdejs/core": "*"
+    "@pdejs/tool-block-paragraph": "*",
+    "@pdejs/tool-inline-marker": "*"
   },
   "devDependencies": {
-    "vite": "^3.1.4"
+    "vite": "^3.1.0"
   }
 }

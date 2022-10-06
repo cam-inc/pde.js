@@ -14,6 +14,7 @@ const run = () => {
   const compiler = webpack({
     entry: targetFilePath,
     mode: 'development',
+    devtool: 'inline-source-map',
     module: {
       rules: [
         {
