@@ -20,9 +20,9 @@
 ## About PDEJS
 
 PDEJS is inspired by Preact's reconciler implements.
-We make the implements working standalone for making plugins of Editor.js through declarative ui programming.
+We made the implements working standalone for constucting plugins of Editor.js through declarative ui programming.
 
-### Why using Preact
+### Why using Preact's reconciler
 
 We first tried to incorporate React philosophy into the data management in the Editor.js block.
 React is a UI library includes a simple architecture concerned with the View of MVC model.
@@ -243,6 +243,105 @@ Modify `compilerOptions.jsxFactory` in `tsconfig.json` or add `@babel/plugin-tra
   "plugins": [["transform-react-jsx", { "pragma": "h" }]]
 }
 ```
+
+## APIs
+
+List up the available APIs.
+
+<div>
+  <h3>Core Functions</h3>
+</div>
+
+### `h(type, config, children)`
+
+Function for parsing JSX to object.
+
+### `createPlugin(element)`
+
+Adapter function for Editor.js.
+It receives PDEJS's JSXElement as an argument and returns Editor.js plugin class.
+
+<div align="center">
+  <h3>JSXElement</h3>
+</div>
+
+See [types](https://github.com/cam-inc/pde.js/blob/main/packages/core/src/types.ts) for more information of JSXElement props.
+
+### `<tool>`
+
+JSXElement for [Editor.js Tools API](https://editorjs.io/tools-api).
+
+| Prop                             | Description                                                                   |        Required         | Data Format | Related Docs                                                   |
+| -------------------------------- | ----------------------------------------------------------------------------- | :---------------------: | ----------- | -------------------------------------------------------------- |
+| `children`                       | is children of PDEJS Element.                                                 | :ballot_box_with_check: | Array       | https://preactjs.com/guide/v10/api-reference/#h--createelement |
+| `save`                           | extracts Block data from the UI.                                              | :ballot_box_with_check: | Function    | https://editorjs.io/tools-api#save                             |
+| `validate`                       | validates Block data after saving.                                            |                         | Function    | https://editorjs.io/tools-api#validate                         |
+| `renderSettings`                 | is object for the settings UI.                                                |                         | Object      | https://editorjs.io/tools-api#rendersettings                   |
+| `destroy`                        | clears Tools stuff(cache, variables, events).                                 |                         | Function    | https://editorjs.io/tools-api#destroy                          |
+| `onPaste`                        | handles content pasted.                                                       |                         | Function    | https://editorjs.io/tools-api#onpaste                          |
+| `merge`                          | specifies how to merge two similar Blocks.                                    |                         | Function    | https://editorjs.io/tools-api#merge                            |
+| `static_get_pasteConfig`         | allows your Tool to substitute pasted contents.                               |                         | Object      | https://editorjs.io/tools-api#pasteconfig                      |
+| `static_get_sanitize`            | allows to clean unwanted HTMLElement or attributes.                           |                         | Object      | https://editorjs.io/tools-api#sanitize                         |
+| `static_get_toolbox`             | decides icon and title. **REQUIRED if Tools should be added to the toolbox.** |                         | Object      | https://editorjs.io/tools-api#toolbox                          |
+| `static_get_shortcut`            | registers a shortcut command.                                                 |                         | String      | https://editorjs.io/tools-api#shortcut                         |
+| `static_get_conversionConfig`    | decides that Tool can be converted into/form anothor Tool.                    |                         | Object      | https://editorjs.io/tools-api#conversionconfig                 |
+| `static_get_enableLineBreaks`    | handles Enter keydowns if it's set true.                                      |                         | Boolean     | https://editorjs.io/tools-api#enablelinebreaks                 |
+| `static_get_isReadOnlySupported` | is a flag for supporting the read-only mode.                                  |                         | Boolean     | https://editorjs.io/tools-api#isreadonlysupported              |
+
+### `<inlineTool>`
+
+JSXElement for [Editor.js Inline Tools API](https://editorjs.io/inline-tools-api-1).
+
+| Prop                  | Description                                    |        Required         | Data Format   | Related Docs                                                   |
+| --------------------- | ---------------------------------------------- | :---------------------: | ------------- | -------------------------------------------------------------- |
+| `children`            | is children of PDEJS Element.                  | :ballot_box_with_check: | Array         | https://preactjs.com/guide/v10/api-reference/#h--createelement |
+| `surround`            | works with selected range.                     | :ballot_box_with_check: | Function      | https://editorjs.io/inline-tools-api-1#surround                |
+| `checkState`          | gets Tool's activated state by selected range. | :ballot_box_with_check: | Function      | https://editorjs.io/inline-tools-api-1#checkstate              |
+| `renderActions`       | create additional element.                     |                         | Function      | https://editorjs.io/inline-tools-api-1#renderactions           |
+| `clear`               | clears Tools stuff.                            |                         | Function      | https://editorjs.io/inline-tools-api-1#clear                   |
+| `get_shortcut`        | sets a shortcut.                               |                         | String        | https://editorjs.io/inline-tools-api-1#shortcut                |
+| `static_get_isInline` | specifies Tool as Inline Toolbar Tool.         | :ballot_box_with_check: | Boolean(true) | https://editorjs.io/inline-tools-api-1#isinline                |
+| `static_sanitize`     | sanitizer rules.                               |                         | Function      | https://editorjs.io/inline-tools-api-1#sanitize                |
+| `static_title`        | decides Tool's title.                          |                         | Function      | https://editorjs.io/inline-tools-api-1#title                   |
+
+### `<blockTune>`
+
+JSXElement for [Editor.js Block Tunes API](https://editorjs.io/block-tunes-api)
+
+| Prop                | Description                               |        Required         | Data Format   | Related Docs                                                   |
+| ------------------- | ----------------------------------------- | :---------------------: | ------------- | -------------------------------------------------------------- |
+| `children`          | is children of PDEJS Element.             | :ballot_box_with_check: | Array         | https://preactjs.com/guide/v10/api-reference/#h--createelement |
+| `save`              | saves Tune's state.                       |                         | Function      | https://editorjs.io/block-tunes-api#save                       |
+| `wrap`              | wraps Block's content element.            |                         | Function      | https://editorjs.io/block-tunes-api#wrap                       |
+| `static_get_isTune` | specifies Tool as Block Tune.             |                         | Boolean(true) | https://editorjs.io/block-tunes-api#static-get-istune          |
+| `static_prepare`    | makes any preparations required for Tune. |                         | Function      | https://editorjs.io/block-tunes-api#prepare                    |
+| `static_reset`      | resets the value of `static_prepare`.     |                         | Function      | https://editorjs.io/block-tunes-api#reset                      |
+
+<div>
+  <h3>Hook</h3>
+</div>
+
+### `useReducer(reducer, initialState, initilizer)`
+
+Update state by provided reducer.
+
+### `useState(initialState)`
+
+Returns state and state updater.
+
+### `useMount(callback)`
+
+Execute callback when mounting DOM.
+
+### `useWatch(callback, deps)`
+
+Execute callback when deps are changed.
+
+### `useConstructor()`
+
+**UNSTABLE HOOK**
+
+Be able to get the value of Editor.js plugin class constructor.
 
 ## Roadmap
 
