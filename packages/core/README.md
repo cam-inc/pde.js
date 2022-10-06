@@ -9,7 +9,9 @@
     Breaking changes often may occur
   </p>
   <p>
-    <a href="https://codesandbox.io/s/focused-merkle-ky84t5?file=/src/index.tsx">Live Demo</a>
+    <a href="https://cam-inc.github.io/pde.js">Docs</a>
+    <span>・</span>
+    <a href="https://codesandbox.io/s/focused-merkle-ky84t5?file=/src/index.tsx">Demo</a>
     <span>・</span>
     <a href="https://github.com/cam-inc/pde.js/issues/new">Report Bugs | Request Features</a>
   </p>
@@ -17,27 +19,40 @@
 
 ## About PDEJS
 
-A Package for constructing declarative Editor.js plugins.
+PDEJS is inspired by Preact's reconciler implements.
+We make the implements working standalone for making plugins of Editor.js through declarative ui programming.
 
-### motivation
+### Why using Preact
+
+We first tried to incorporate React philosophy into the data management in the Editor.js block.
+React is a UI library includes a simple architecture concerned with the View of MVC model.
+In applications such as block editors that read and write a lot of data, an approach like React is useful because managing data through DOM manipulation is very labor intensive.
+Therefore, we used React's mechanisms such as reconciliation and hooks to make data management simple and explicit to improve the development experience.
+
+However, React implementation is complex, even for a reconciler or hooks implementation.
+Even if the exact same code could be run standalone, it would require time spent understanding the code, making ongoing maintenance impractical.
+Therefore, we decide to utilze Preact for incorporating the React philosophy without relying on React.
+
+Preact is a library known as a lightweight alternative of React.
+However, we consider that the superiority of the Preact is not that it is a lighter library than React, but it rewrites React with a minimum amount of code to make it more readable.
 
 ## Getting started
 
-### Install (With TypeScript)
+Required Node.js v16 or later.
 
-_We strongly recommend to use with TypeScript._
+### With TypeScript(recommended)
+
+Install packages.
 
 ```shell
 npm i @editorjs/editorjs @pdejs/core
 ```
 
-Install typescript.
-
 ```shell
 npm i --save-dev typescript
 ```
 
-Add `tsconfig.json` like shown below.
+Add `tsconfig.json`.
 
 ```json
 {
@@ -54,260 +69,113 @@ Add `tsconfig.json` like shown below.
 }
 ```
 
-### Sample (With TypeScript)
+Write your first plugin like shown below.
 
 ```tsx
 /* @jsx h */
-import EditorJS, {
-  API,
-  BlockToolConstructorOptions,
-  BlockToolData,
-  InlineToolConstructorOptions,
-  ToolConfig,
-} from '@editorjs/editorjs';
 import {
   h,
-  useState,
-  useWatch,
-  createPlugin,
   useMount,
-  useConstruct,
+  useWatch,
+  useState,
+  PDJSX,
+  createPlugin,
 } from '@pdejs/core';
 
-const WithHooks = () => {
-  console.log('render or re-render');
-  const [show, setShow] = useState(false);
-  const [value, setValue] = useState('');
-  const [text, setText] = useState('Ping');
-
-  const [api, setApi] = useState<API | null>(null);
-  const [config, setConfig] = useState<ToolConfig | null>(null);
-
-  useMount(() => {
-    setText('Pong');
-  });
-
-  useWatch(() => {
-    console.log('[useWatch] show changed!: ', show);
-  }, [show]);
-
-  useWatch(() => {
-    console.log('[useWatch] value changed!: ', value);
-  }, [value]);
-
-  const params = useConstruct<InlineToolConstructorOptions>();
-  if (params != null) {
-    setApi(params.api);
-    setConfig(params.config);
-  }
-
-  const save = (blockContent: HTMLElement) => {
-    return {
-      text: blockContent.innerText,
-    };
+const Plugin = () => {
+  const toolbox: PDJSX.ToolAttributes['static_get_toolbox'] = {
+    title: 'Simple',
+    icon: '⚔️',
+  };
+  const save: PDJSX.ToolAttributes['save'] = (blockContent) => {
+    return blockContent.innerText;
   };
 
-  const handleClick = () => {
-    setShow((prevState) => !prevState);
+  const [inputValue, setInputValue] = useState('');
+  const [submitValue, setSubmitValue] = useState('');
+  const handleFormSubmit = (event: Event) => {
+    event.preventDefault();
+    setSubmitValue(inputValue);
   };
-
-  const handleChange = (e: Event) => {
-    if (e.target instanceof HTMLInputElement) {
-      setValue(e.target.value);
+  const handleInputChange = (event: Event) => {
+    if (event.target instanceof HTMLInputElement) {
+      setInputValue(event.target.value);
     }
   };
 
-  const handleSubmit = (e: Event) => {
-    setText(value);
-    console.log('[handleSubmit] api:  ', api);
-    console.log('[handleSubmit] config:  ', config);
-    e.preventDefault();
-  };
+  useMount(() => {
+    console.log('[@pdejs/simple] is ready to work!');
+  });
+  useWatch(() => {
+    console.log(`[@pdejs/simple] submitted : `, submitValue);
+  }, [submitValue]);
 
   return (
-    <tool
-      save={save}
-      static_get_toolbox={{
-        title: 'SampleWithHooks',
-        icon: `<span>🧪</span>`,
-      }}
-    >
+    <tool save={save} static_get_toolbox={toolbox}>
       <div>
-        <span style={{ cursor: 'pointer' }} onClick={handleClick}>
-          {text}
-          {show && <span>'clicked!'</span>}
-        </span>
-        <div
-          style={{
-            width: '128px',
-            height: '64px',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            background: 'gray',
-            color: 'white',
-          }}
-        >
-          <form
-            style={{
-              width: '100%',
-              padding: '8px',
-            }}
-            onSubmit={handleSubmit}
-          >
-            <input
-              style={{ width: '100%' }}
-              onChange={handleChange}
-              value={value}
-            />
-            <input type="submit" value="Submit" />
-          </form>
+        <form onSubmit={handleFormSubmit}>
+          <label>
+            type something→
+            <input onChange={handleInputChange} value={inputValue} />
+          </label>
+          <button>submit</button>
+        </form>
+        <div>
+          <span>submitted: </span>
+          <span>{submitValue}</span>
         </div>
-        {api && <pre>{api.styles.inlineToolButton}</pre>}
       </div>
     </tool>
   );
 };
 
-const WithContentEdiable = () => {
-  const [data, setData] = useState<BlockToolData | null>(null);
+export const Simple = createPlugin(<Plugin />);
+```
 
-  const params = useConstruct<BlockToolConstructorOptions>();
-  if (params != null) {
-    setData(params.data);
-  }
+Create files for completing to setup. We recommend to use `vite` for hosting locally.
 
-  return (
-    <tool
-      static_get_toolbox={{ title: 'SampleWithContentEdiable', icon: '✍️' }}
-      save={() => {}}
-    >
-      <div contentEditable={true}>default value: {data?.value}</div>
-    </tool>
-  );
-};
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Example - Simple</title>
+  </head>
+  <body>
+    <div id="canvas"></div>
+    <button id="save">save</button>
+    <script type="module" src="/main.ts"></script>
+  </body>
+</html>
+```
 
-const WithSvg = () => {
-  const surround = (range: Range) => {};
-  const checkState = () => {};
-  return (
-    <inlineTool
-      static_get_isInline={true}
-      surround={surround}
-      checkState={checkState}
-    >
-      <button class="ce-inline-tool">
-        <svg width="20" height="18">
-          <path d="M10.458 12.04l2.919 1.686-.781 1.417-.984-.03-.974 1.687H8.674l1.49-2.583-.508-.775.802-1.401zm.546-.952l3.624-6.327a1.597 1.597 0 0 1 2.182-.59 1.632 1.632 0 0 1 .615 2.201l-3.519 6.391-2.902-1.675zm-7.73 3.467h3.465a1.123 1.123 0 1 1 0 2.247H3.273a1.123 1.123 0 1 1 0-2.247z" />
-        </svg>
-      </button>
-    </inlineTool>
-  );
-};
+```ts
+/* @jsx h */
+import { Simple } from './plugin';
+import EditorJS from '@editorjs/editorjs';
 
-const CustomTool = () => {
-  const handleClick = () => {
-    console.log('clicked');
-  };
-  const handleSave = (blockContent: HTMLElement) => {
-    return {
-      text: blockContent.innerText,
-    };
-  };
-  return (
-    <tool
-      save={handleSave}
-      static_get_toolbox={{ title: 'CustomTool', icon: '<span>🔮</span>' }}
-    >
-      <div>
-        <button
-          style={{ border: 'none', cursor: 'pointer' }}
-          onClick={handleClick}
-        >
-          button
-        </button>
-      </div>
-    </tool>
-  );
-};
+import './style.css';
 
-const CustomInlineTool = () => {
-  return (
-    <inlineTool
-      surround={() => {}}
-      checkState={() => {}}
-      static_get_isInline={true}
-    >
-      <button class="ce-inline-tool">📝</button>
-    </inlineTool>
-  );
-};
-
-const CustomBlockTune = () => {
-  return (
-    <blockTune static_get_isTune={true}>
-      <span>🎸</span>
-    </blockTune>
-  );
-};
-
-const containerElm = document.querySelector<HTMLDivElement>('#container');
+const canvasElm = document.querySelector<HTMLDivElement>('#canvas');
 const saveElm = document.querySelector<HTMLButtonElement>('#save');
-const outputElm = document.querySelector<HTMLPreElement>('#output');
 
-if (!containerElm) {
-  throw new Error('Could not find the element#container');
-}
-
-if (!outputElm) {
-  throw new Error('Cloud not find the element#output');
+if (!canvasElm) {
+  throw new Error('Could not find the element#canvas');
 }
 
 const editor = new EditorJS({
-  holder: containerElm,
+  holder: canvasElm,
   tools: {
-    withHooks: {
-      class: createPlugin(<WithHooks />),
-    },
-    withContentEditable: {
-      class: createPlugin(<WithContentEdiable />),
-    },
-    withSvg: {
-      class: createPlugin(<WithSvg />),
-    },
-    customTool: {
-      class: createPlugin(<CustomTool />),
-    },
-    customInlineTool: {
-      class: createPlugin(<CustomInlineTool />),
-      inlineToolbar: true,
-    },
-    customBlockTune: {
-      class: createPlugin(<CustomBlockTune />),
+    simple: {
+      class: Simple,
     },
   },
-  data: {
-    blocks: [
-      {
-        type: 'withContentEditable',
-        data: {
-          value: 'initial paragraph 01',
-        },
-      },
-      {
-        type: 'withContentEditable',
-        data: {
-          value: 'initial paragraph 02',
-        },
-      },
-    ],
-  },
-  tunes: ['customBlockTune'],
   onReady: () => {
-    console.log('[EDITORJS] Editor.js is ready to work!');
+    console.log('Editor.js is ready to work!');
   },
   onChange: (_, event) => {
-    console.log("[EDITORJS] Now I know that Editor's content changed!", event);
+    console.log("Now I know that Editor's content changed!", event);
   },
   autofocus: true,
   placeholder: "Let's write an awesome story!",
@@ -317,27 +185,33 @@ saveElm?.addEventListener('click', () => {
   editor
     .save()
     .then((outputData) => {
-      outputElm.innerText = JSON.stringify(outputData);
+      console.log('saved: ', outputData);
     })
     .catch((error) => {
-      outputElm.innerText = JSON.stringify(error);
+      console.log('save failded: ', error);
     });
 });
 ```
 
-### Install (With JavaScript)
+It works :tada:
+
+[image]
+
+See the [source](https://github.com/cam-inc/pde.js/tree/main/examples/simple) for more information.
+
+### With JavaScript
+
+Install packages.
 
 ```shell
 npm i @editorjs/editorjs @pdejs/core
 ```
 
-Install dependencies related with babel.
-
 ```shell
 npm i --save-dev @babel/core @babel/cli @babel/plugin-transform-react-jsx @babel/preset-env
 ```
 
-Add `.babelrc` like shown below.
+Add `.babelrc`.
 
 ```json
 {
@@ -346,17 +220,11 @@ Add `.babelrc` like shown below.
 }
 ```
 
-### N.B.
+Other steps are almostly the same way of the [With TypeScript](<#with-typescript(recommended)>).
 
-If you do not want to use `@jsx h`, you can use @pdejs/core by modifying `@babel/plugin-transform-react-jsx` pragma or compilerOptions.jsxFactory in tsconfig.json as follows.
+### If you do not want to use `@jsx h`
 
-**`.babelrc` (with `@babel-transform-react-jsx`)**
-
-```json
-{
-  "plugins": [["transform-react-jsx", { "pragma": "h" }]]
-}
-```
+Modify `compilerOptions.jsxFactory` in `tsconfig.json` or add `@babel/plugin-transform-react-jsx` for modifying [pragma](https://babeljs.io/docs/en/babel-plugin-transform-react-jsx#pragma) as follows.
 
 **`tsconfig.json` (with `tsc`)**
 
@@ -368,11 +236,18 @@ If you do not want to use `@jsx h`, you can use @pdejs/core by modifying `@babel
 }
 ```
 
+**`.babelrc` (with `@babel-transform-react-jsx`)**
+
+```json
+{
+  "plugins": [["transform-react-jsx", { "pragma": "h" }]]
+}
+```
+
 ## Roadmap
 
-- [x] Add skelton
 - [x] Add types for custom JSX elements
-- [ ] Add a parser for JSX and syntax of Editor.js tools
+- [x] Add a parser for JSX and syntax of Editor.js tools
   - [x] Prototyping(Add a simple parser)
   - [x] [Styles API support](https://editorjs.io/styles)
   - [x] [Access params of constructor as props](https://editorjs.io/tools-api#class-constructor)
