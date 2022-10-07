@@ -35,6 +35,7 @@ Therefore, we decide to utilze Preact for incorporating the React philosophy wit
 
 Preact is a library known as a lightweight alternative of React.
 However, we consider that the superiority of the Preact is not that it is a lighter library than React, but it rewrites React with a minimum amount of code to make it more readable.
+Hence, we worked on cloning the implements from Preact's reconciler and adjusted for Editor.js plugin development.
 
 ## Getting started
 
@@ -248,26 +249,22 @@ Modify `compilerOptions.jsxFactory` in `tsconfig.json` or add `@babel/plugin-tra
 
 List up the available APIs.
 
-<div align="center">
-  <h3>Core Functions</h3>
-</div>
+### Core Functions
 
-### `h(type, config, children)`
+#### `h(type, config, children)`
 
 Function for parsing JSX to object.
 
-### `createPlugin(element)`
+#### `createPlugin(element)`
 
 Adapter function for Editor.js.
 It receives PDEJS's JSXElement as an argument and returns Editor.js plugin class.
 
-<div align="center">
-  <h3>JSXElement</h3>
-</div>
+### JSXElement
 
 See [types](https://github.com/cam-inc/pde.js/blob/main/packages/core/src/types.ts) for more information of JSXElement props.
 
-### `<tool>`
+#### `<tool>`
 
 JSXElement for [Editor.js Tools API](https://editorjs.io/tools-api).
 
@@ -288,7 +285,7 @@ JSXElement for [Editor.js Tools API](https://editorjs.io/tools-api).
 | `static_get_enableLineBreaks`    | handles Enter keydowns if it's set true.                                      |                         | Boolean     | https://editorjs.io/tools-api#enablelinebreaks                 |
 | `static_get_isReadOnlySupported` | is a flag for supporting the read-only mode.                                  |                         | Boolean     | https://editorjs.io/tools-api#isreadonlysupported              |
 
-### `<inlineTool>`
+#### `<inlineTool>`
 
 JSXElement for [Editor.js Inline Tools API](https://editorjs.io/inline-tools-api-1).
 
@@ -304,7 +301,7 @@ JSXElement for [Editor.js Inline Tools API](https://editorjs.io/inline-tools-api
 | `static_sanitize`     | sanitizer rules.                               |                         | Function      | https://editorjs.io/inline-tools-api-1#sanitize                |
 | `static_title`        | decides Tool's title.                          |                         | Function      | https://editorjs.io/inline-tools-api-1#title                   |
 
-### `<blockTune>`
+#### `<blockTune>`
 
 JSXElement for [Editor.js Block Tunes API](https://editorjs.io/block-tunes-api)
 
@@ -317,27 +314,25 @@ JSXElement for [Editor.js Block Tunes API](https://editorjs.io/block-tunes-api)
 | `static_prepare`    | makes any preparations required for Tune. |                         | Function      | https://editorjs.io/block-tunes-api#prepare                    |
 | `static_reset`      | resets the value of `static_prepare`.     |                         | Function      | https://editorjs.io/block-tunes-api#reset                      |
 
-<div align="center">
-  <h3>Hook</h3>
-</div>
+### Hook
 
-### `useReducer(reducer, initialState, initilizer)`
+#### `useReducer(reducer, initialState, initilizer)`
 
 Update state by provided reducer.
 
-### `useState(initialState)`
+#### `useState(initialState)`
 
 Returns state and state updater.
 
-### `useMount(callback)`
+#### `useMount(callback)`
 
 Execute callback when mounting DOM.
 
-### `useWatch(callback, deps)`
+#### `useWatch(callback, deps)`
 
 Execute callback when deps are changed.
 
-### `useConstructor()`
+#### `useConstructor()`
 
 **UNSTABLE HOOK**
 
