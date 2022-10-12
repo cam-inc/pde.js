@@ -11,7 +11,7 @@
   <p>
     <a href="https://cam-inc.github.io/pde.js">Docs</a>
     <span>・</span>
-    <a href="https://codesandbox.io/s/focused-merkle-ky84t5?file=/src/index.tsx">Demo</a>
+    <a href="https://codesandbox.io/s/pdejs-demo-yo1787?file=/src/index.ts">Demo</a>
     <span>・</span>
     <a href="https://github.com/cam-inc/pde.js/issues/new">Report Bugs | Request Features</a>
   </p>
