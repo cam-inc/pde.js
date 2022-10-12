@@ -6,18 +6,20 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'My Site',
-  tagline: 'Dinosaurs are cool',
-  url: 'https://your-docusaurus-test-site.com',
-  baseUrl: '/',
+  title: 'PDEJS',
+  tagline: 'Plugin(Preact like) Declarative for Editor.js',
+  url: 'https://cam-inc.github.io',
+  baseUrl: '/pde.js/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
-  favicon: 'img/favicon.ico',
+  favicon: undefined /*'img/favicon.ico'*/,
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'facebook', // Usually your GitHub org/user name.
-  projectName: 'docusaurus', // Usually your repo name.
+  organizationName: 'cam-inc', // Usually your GitHub org/user name.
+  projectName: 'pde.js', // Usually your repo name.
+  deploymentBranch: 'gh-pages',
+  trailingSlash: false,
 
   // Even if you don't use internalization, you can use this field to set useful
   // metadata like html lang. For example, if your site is Chinese, you may want
@@ -57,25 +59,40 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       navbar: {
-        title: 'My Site',
-        logo: {
-          alt: 'My Site Logo',
-          src: 'img/logo.svg',
-        },
+        title: 'PDEJS',
+        // logo: {
+        //   alt: 'PDEJS Logo',
+        //   src: 'img/logo.svg',
+        // },
         items: [
           {
-            type: 'doc',
-            docId: 'intro',
+            to: '/docs/intro',
             position: 'left',
-            label: 'Tutorial',
+            label: 'Docs',
           },
-          { to: '/blog', label: 'Blog', position: 'left' },
+          {
+            to: '/docs/api/overview',
+            position: 'left',
+            label: 'API',
+          },
+          {
+            href: 'https://codesandbox.io/s/pdejs-demo-yo1787',
+            position: 'left',
+            label: 'Demo',
+          },
+          // {
+          //   type: 'doc',
+          //   docId: 'intro',
+          //   position: 'left',
+          //   label: 'Docs',
+          // },
+          // { to: '/blog', label: 'Blog', position: 'left' },
           {
             type: 'localeDropdown',
             position: 'right',
           },
           {
-            href: 'https://github.com/facebook/docusaurus',
+            href: 'https://github.com/cam-inc/pde.js',
             label: 'GitHub',
             position: 'right',
           },
@@ -88,8 +105,12 @@ const config = {
             title: 'Docs',
             items: [
               {
-                label: 'Tutorial',
+                label: 'Introduction',
                 to: '/docs/intro',
+              },
+              {
+                label: 'Quick Start',
+                to: '/docs/getting-started/quick-start',
               },
             ],
           },
@@ -97,34 +118,38 @@ const config = {
             title: 'Community',
             items: [
               {
-                label: 'Stack Overflow',
-                href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+                label: 'GitHub',
+                href: 'https://github.com/cam-inc/pde.js',
               },
               {
-                label: 'Discord',
-                href: 'https://discordapp.com/invite/docusaurus',
+                label: 'npm',
+                href: 'https://www.npmjs.com/package/@pdejs/core',
               },
               {
-                label: 'Twitter',
-                href: 'https://twitter.com/docusaurus',
+                label: 'Issues',
+                href: 'https://github.com/cam-inc/pde.js/issues',
+              },
+              {
+                label: 'Contributing',
+                href: 'https://github.com/cam-inc/pde.js/blob/main/CONTRIBUTING.md',
               },
             ],
           },
           {
-            title: 'More',
+            title: 'Legal',
             items: [
               {
-                label: 'Blog',
-                to: '/blog',
+                label: 'License',
+                href: 'https://github.com/cam-inc/pde.js/blob/main/LICENSE',
               },
-              {
-                label: 'GitHub',
-                href: 'https://github.com/facebook/docusaurus',
-              },
+              // {
+              //   label: 'Blog',
+              //   to: '/blog',
+              // },
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} CAM, Inc. Built with Docusaurus.`,
       },
       prism: {
         theme: lightCodeTheme,
