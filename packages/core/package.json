@@ -48,10 +48,12 @@
   "bugs": {
     "url": "https://github.com/cam-inc/pde.js/issues"
   },
+  "dependencies": {
+    "change-case": "^4.1.2"
+  },
   "devDependencies": {
     "@babel/core": "^7.18.13",
     "@types/jest": "^28.1.7",
-    "change-case": "^4.1.2",
     "cli-color": "^2.0.3",
     "esbuild-loader": "^2.19.0",
     "jest": "^28.1.3",
