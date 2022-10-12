@@ -196,7 +196,7 @@ saveElm?.addEventListener('click', () => {
 
 It works :tada:
 
-[image]
+<img width="418" alt="pdejs-demo" src="https://user-images.githubusercontent.com/38882716/195280901-37a62a00-192b-4d69-95b4-2db1e4d430fa.png">
 
 See the [source](https://github.com/cam-inc/pde.js/tree/main/examples/simple) for more information.
 
