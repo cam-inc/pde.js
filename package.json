@@ -1,7 +1,7 @@
 {
-  "private": true,
+  "private": false,
   "name": "pdejs",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "volta": {
     "node": "16.14.2"
   },
@@ -9,11 +9,13 @@
   "scripts": {
     "preflight": "npm ci .",
     "postinstall": "npx husky install && turbo run license-checker",
+    "prepare": "turbo run build && turbo run license-checker",
     "dev": "turbo run dev --parallel",
     "build": "turbo run build",
     "test": "turbo run test",
     "clear": "turbo run clear",
-    "graph": "turbo run build test lint format clean --graph=task-graph.png"
+    "graph": "turbo run build test lint format clean --graph=task-graph.png",
+    "changelog": "conventional-changelog --preset conventionalcommits --release-count 0 --commit-path $PWD --pkg $PWD/package.json --infile $PWD/CHANGELOG.md --same-file"
   },
   "workspaces": ["apps/*", "examples/*", "packages/*"],
   "devDependencies": {
