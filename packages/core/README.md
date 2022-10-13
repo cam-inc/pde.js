@@ -24,22 +24,27 @@
 ## About PDEJS
 
 PDEJS is inspired by Preact's reconciler implements.
-We made the implements working standalone for constucting plugins of Editor.js through declarative ui programming.
+We made the implements work standalone for constructing plugins of Editor.js through declarative UI programming.
 
 ### Why using Preact's reconciler
 
 We first tried to incorporate React philosophy into the data management in the Editor.js block.
-React is a UI library includes a simple architecture concerned with the View of MVC model.
-In applications such as block editors that read and write a lot of data, an approach like React is useful because managing data through DOM manipulation is very labor intensive.
-Therefore, we used React's mechanisms such as reconciliation and hooks to make data management simple and explicit to improve the development experience.
+React is a UI library that includes a simple architecture concerned with the View of the MVC model.
+In applications such as block editors that read and write a lot of data, an approach like React is
+useful because managing data through DOM manipulation is very labor-intensive.
+Therefore, we used React's mechanisms such as reconciliation and hooks to make data management simple
+and explicit to improve the development experience.
 
 However, React implementation is complex, even for a reconciler or hooks implementation.
-Even if the exact same code could be run standalone, it would require time spent understanding the code, making ongoing maintenance impractical.
-Therefore, we decide to utilze Preact for incorporating the React philosophy without relying on React.
+Even if the same code could be run standalone, it would require time spent understanding the code,
+making ongoing maintenance impractical. Therefore, we decide to utilize Preact for incorporating
+the React philosophy without relying on React.
 
-Preact is a library known as a lightweight alternative of React.
-However, we consider that the superiority of the Preact is not that it is a lighter library than React, but it rewrites React with a minimum amount of code to make it more readable.
-Hence, we worked on cloning the implements from Preact's reconciler and adjusted for Editor.js plugin development.
+Preact is a library known as a lightweight alternative to React.
+However, we consider that the superiority of Preact is not that it is a lighter library than React,
+but it rewrites React with a minimum amount of code to make it more readable.
+Hence, we worked on cloning the implements from Preact's reconciler and adjusted them for Editor.js
+plugin development.
 
 ## Getting started
 
@@ -74,7 +79,7 @@ Add `tsconfig.json`.
 }
 ```
 
-Write your first plugin like shown below.
+Write your first plugin as shown below.
 
 ```tsx
 /* @jsx h */
@@ -137,7 +142,7 @@ const Plugin = () => {
 export const Simple = createPlugin(<Plugin />);
 ```
 
-Create files for completing to setup. We recommend to use `vite` for hosting locally.
+Create files for completing to setup. We recommend using `vite` for hosting locally.
 
 ```html
 <!DOCTYPE html>
@@ -225,7 +230,7 @@ Add `.babelrc`.
 }
 ```
 
-Other steps are almostly the same way of the [With TypeScript](<#with-typescript(recommended)>).
+Other steps are almost the same way of [With TypeScript](<#with-typescript(recommended)>).
 
 ### If you do not want to use `@jsx h`
 
@@ -322,7 +327,7 @@ JSXElement for [Editor.js Block Tunes API](https://editorjs.io/block-tunes-api)
 
 #### `useReducer(reducer, initialState, initilizer)`
 
-Update state by provided reducer.
+Update state by a provided reducer.
 
 #### `useState(initialState)`
 
@@ -334,7 +339,7 @@ Execute callback when mounting DOM.
 
 #### `useWatch(callback, deps)`
 
-Execute callback when deps are changed.
+Execute callback when `deps` are changed.
 
 #### `useConstructor()`
 

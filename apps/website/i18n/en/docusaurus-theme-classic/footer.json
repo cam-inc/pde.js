@@ -42,5 +42,13 @@
   "copyright": {
     "message": "Copyright © 2022 CAM, Inc. Built with Docusaurus.",
     "description": "The footer copyright"
+  },
+  "link.item.label.API": {
+    "message": "API",
+    "description": "The label of footer link with label=API linking to /docs/api/overview"
+  },
+  "link.item.label.References": {
+    "message": "References",
+    "description": "The label of footer link with label=References linking to /docs/references/roadmap"
   }
 }

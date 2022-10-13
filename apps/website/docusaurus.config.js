@@ -7,7 +7,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'PDEJS',
-  tagline: 'Plugin(Preact like) Declarative for Editor.js',
+  tagline: 'Plugin(Preact-like) Declarative for Editor.js',
   url: 'https://cam-inc.github.io',
   baseUrl: '/pde.js/',
   onBrokenLinks: 'throw',

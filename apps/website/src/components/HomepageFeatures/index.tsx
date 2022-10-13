@@ -25,7 +25,7 @@ const FeatureList: FeatureItem[] = [
     title: 'Declarative Programming',
     description: (
       <>
-        Get benefits from declarative programming through using of the{` `}
+        Get benefits from declarative programming by using the{` `}
         <a
           href="https://reactjs.org/docs/introducing-jsx.html#gatsby-focus-wrapper"
           target="_blank"
@@ -33,8 +33,8 @@ const FeatureList: FeatureItem[] = [
         >
           JSX
         </a>
-        . It clearifies the relationship between UI and the implements and
-        simplifies complex state management by almost the same way{' '}
+        . It clarifies the relationship between UI and the implements and
+        simplifies complex state management in almost the same way{' '}
         <a href="https://preactjs.com">Preact</a>.
       </>
     ),
@@ -44,8 +44,8 @@ const FeatureList: FeatureItem[] = [
     description: (
       <>
         PDEJS does not depend on any UI Libraries like React, Vue, Ember, etc.
-        It supports to create UI by pure JavaScript(and JSX). Of course, it
-        works well with TypeScript.
+        It supports creating UI by pure JavaScript(and JSX). Of course, it works
+        well with TypeScript.
       </>
     ),
   },
