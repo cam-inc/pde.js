@@ -80,6 +80,11 @@ const config = {
             position: 'left',
             label: 'Demo',
           },
+          {
+            href: 'https://github.com/cam-inc/pde.js',
+            label: 'GitHub',
+            position: 'left',
+          },
           // {
           //   type: 'doc',
           //   docId: 'intro',
@@ -89,11 +94,6 @@ const config = {
           // { to: '/blog', label: 'Blog', position: 'left' },
           {
             type: 'localeDropdown',
-            position: 'right',
-          },
-          {
-            href: 'https://github.com/cam-inc/pde.js',
-            label: 'GitHub',
             position: 'right',
           },
         ],

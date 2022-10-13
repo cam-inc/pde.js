@@ -12,8 +12,12 @@ const FeatureList: FeatureItem[] = [
     title: 'Make Editor.js More Powerful',
     description: (
       <>
-        PDEJS realizes to create Editor.js tools is easier. This makes the
-        development of using Editor.js more efficient.
+        PDEJS realizes to create{' '}
+        <a href="https://editorjs.io" target="_blank" rel="noreferrer">
+          Editor.js
+        </a>{' '}
+        tools is easier. This makes the development of using Editor.js more
+        efficient.
       </>
     ),
   },
@@ -29,7 +33,9 @@ const FeatureList: FeatureItem[] = [
         >
           JSX
         </a>
-        . It simplifies complex state management.
+        . It clearifies the relationship between UI and the implements and
+        simplifies complex state management by almost the same way{' '}
+        <a href="https://preactjs.com">Preact</a>.
       </>
     ),
   },
@@ -38,7 +44,8 @@ const FeatureList: FeatureItem[] = [
     description: (
       <>
         PDEJS does not depend on any UI Libraries like React, Vue, Ember, etc.
-        Of course, it works well with TypeScript.
+        It supports to create UI by pure JavaScript(and JSX). Of course, it
+        works well with TypeScript.
       </>
     ),
   },

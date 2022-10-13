@@ -1,6 +1,9 @@
 <div align="center">
+  <div>
+    <img width="200" role="img" alt="PDEJS Logo" src="./apps/website/static/img/logo.svg" />
+  </div>
   <h1>
-    ⚔️  PDEJS ⚔️
+    PDEJS
   </h1>
   <h3>
     🚜 CURRENTLY IN EARLY DEVELOPMENT 🚜
@@ -12,8 +15,9 @@
     <a href="https://cam-inc.github.io/pde.js">Docs</a>
     <span>・</span>
     <a href="https://codesandbox.io/s/pdejs-demo-yo1787?file=/src/index.ts">Demo</a>
-    <span>・</span>
-    <a href="https://github.com/cam-inc/pde.js/issues/new">Report Bugs | Request Features</a>
+  </p>
+  <p>
+    <a href="https://github.com/cam-inc/pde.js/issues/new">Report Bugs / Request Features</a>
   </p>
 </div>
 
@@ -314,7 +318,7 @@ JSXElement for [Editor.js Block Tunes API](https://editorjs.io/block-tunes-api)
 | `static_prepare`    | makes any preparations required for Tune. |                         | Function      | https://editorjs.io/block-tunes-api#prepare                    |
 | `static_reset`      | resets the value of `static_prepare`.     |                         | Function      | https://editorjs.io/block-tunes-api#reset                      |
 
-### Hook
+### Hooks
 
 #### `useReducer(reducer, initialState, initilizer)`
 
