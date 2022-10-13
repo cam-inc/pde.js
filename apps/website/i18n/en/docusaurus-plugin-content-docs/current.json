@@ -1,0 +1,18 @@
+{
+  "version.label": {
+    "message": "Next",
+    "description": "The label for version current"
+  },
+  "sidebar.ourSidebar.category.Getting Started": {
+    "message": "Getting Started",
+    "description": "The label for category Getting Started in sidebar ourSidebar"
+  },
+  "sidebar.ourSidebar.category.API": {
+    "message": "API",
+    "description": "The label for category API in sidebar ourSidebar"
+  },
+  "sidebar.ourSidebar.category.References": {
+    "message": "References",
+    "description": "The label for category References in sidebar ourSidebar"
+  }
+}

@@ -10,9 +10,30 @@
   overflow: hidden;
 }
 
+.logo {
+  display: flex;
+  align-items: center;
+  max-width: 200px;
+  width: 100%;
+  object-fit: contain;
+}
+
+.box {
+  display: flex;
+  justify-content: center;
+  gap: 4rem;
+}
+
 @media screen and (max-width: 996px) {
   .heroBanner {
     padding: 2rem;
+  }
+  .box {
+    display: block;
+  }
+  .box > div:first-child {
+    margin: 0 auto;
+    margin-bottom: 2rem;
   }
 }
 

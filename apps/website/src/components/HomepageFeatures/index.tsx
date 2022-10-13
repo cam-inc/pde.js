@@ -4,49 +4,56 @@ import styles from './styles.module.css';
 
 type FeatureItem = {
   title: string;
-  Svg: React.ComponentType<React.ComponentProps<'svg'>>;
   description: JSX.Element;
 };
 
 const FeatureList: FeatureItem[] = [
   {
-    title: 'Easy to Use',
-    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
+    title: 'Make Editor.js More Powerful',
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
+        PDEJS realizes to create{' '}
+        <a href="https://editorjs.io" target="_blank" rel="noreferrer">
+          Editor.js
+        </a>{' '}
+        tools is easier. This makes the development of using Editor.js more
+        efficient.
       </>
     ),
   },
   {
-    title: 'Focus on What Matters',
-    Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
+    title: 'Declarative Programming',
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
+        Get benefits from declarative programming by using the{` `}
+        <a
+          href="https://reactjs.org/docs/introducing-jsx.html#gatsby-focus-wrapper"
+          target="_blank"
+          rel="noreferrer"
+        >
+          JSX
+        </a>
+        . It clarifies the relationship between UI and the implements and
+        simplifies complex state management in almost the same way{' '}
+        <a href="https://preactjs.com">Preact</a>.
       </>
     ),
   },
   {
-    title: 'Powered by React',
-    Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
+    title: 'No dependence on UI Libraries',
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        PDEJS does not depend on any UI Libraries like React, Vue, Ember, etc.
+        It supports creating UI by pure JavaScript(and JSX). Of course, it works
+        well with TypeScript.
       </>
     ),
   },
 ];
 
-function Feature({title, Svg, description}: FeatureItem) {
+function Feature({ title, description }: FeatureItem) {
   return (
     <div className={clsx('col col--4')}>
-      <div className="text--center">
-        <Svg className={styles.featureSvg} role="img" />
-      </div>
       <div className="text--center padding-horiz--md">
         <h3>{title}</h3>
         <p>{description}</p>
