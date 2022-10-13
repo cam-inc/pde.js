@@ -12,7 +12,7 @@ const config = {
   baseUrl: '/pde.js/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
-  favicon: undefined /*'img/favicon.ico'*/,
+  favicon: 'img/logo.svg',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
@@ -38,15 +38,15 @@ const config = {
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+          // editUrl:
+          //   'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
         },
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+          // editUrl:
+          //   'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
@@ -60,10 +60,10 @@ const config = {
     ({
       navbar: {
         title: 'PDEJS',
-        // logo: {
-        //   alt: 'PDEJS Logo',
-        //   src: 'img/logo.svg',
-        // },
+        logo: {
+          alt: 'PDEJS Logo',
+          src: 'img/logo.svg',
+        },
         items: [
           {
             to: '/docs/intro',
@@ -111,6 +111,14 @@ const config = {
               {
                 label: 'Quick Start',
                 to: '/docs/getting-started/quick-start',
+              },
+              {
+                label: 'API',
+                to: '/docs/api/overview',
+              },
+              {
+                label: 'References',
+                to: '/docs/references/roadmap',
               },
             ],
           },
