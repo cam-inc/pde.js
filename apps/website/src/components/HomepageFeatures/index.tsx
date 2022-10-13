@@ -12,17 +12,8 @@ const FeatureList: FeatureItem[] = [
     title: 'Make Editor.js More Powerful',
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
-      </>
-    ),
-  },
-  {
-    title: 'No dependence on UI Libraries',
-    description: (
-      <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
+        PDEJS realizes to create Editor.js tools is easier. This makes the
+        development of using Editor.js more efficient.
       </>
     ),
   },
@@ -30,8 +21,24 @@ const FeatureList: FeatureItem[] = [
     title: 'Declarative Programming',
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        Get benefits from declarative programming through using of the{` `}
+        <a
+          href="https://reactjs.org/docs/introducing-jsx.html#gatsby-focus-wrapper"
+          target="_blank"
+          rel="noreferrer"
+        >
+          JSX
+        </a>
+        . It simplifies complex state management.
+      </>
+    ),
+  },
+  {
+    title: 'No dependence on UI Libraries',
+    description: (
+      <>
+        PDEJS does not depend on any UI Libraries like React, Vue, Ember, etc.
+        Of course, it works well with TypeScript.
       </>
     ),
   },
