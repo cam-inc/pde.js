@@ -138,3 +138,6 @@ task-graph.png
 
 # License Checker
 .licenselist.json
+
+# Git Archive
+pde.js-v*
