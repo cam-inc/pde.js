@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkwebsite=self.webpackChunkwebsite||[]).push([[928],{4873:e=>{e.exports=JSON.parse('[{"label":"hello","permalink":"/pde.js/ja/blog/tags/hello","count":1},{"label":"pdejs","permalink":"/pde.js/ja/blog/tags/pdejs","count":1}]')}}]);
